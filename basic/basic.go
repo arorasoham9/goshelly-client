@@ -152,10 +152,13 @@ func StartClient(HOST string, PORT string, SSLEMAIL string) {
 	clientfile, err := os.OpenFile(CONFIG.LOGNAME, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		fmt.Printf("Client log open error: %s. No logs available. ", err)
-		return
+		
 	}
 	defer clientfile.Close()
 	CONFIG.CLIENTLOG = log.New(clientfile, "", log.LstdFlags)
+	if err != nil {
+		CONFIG.CLIENTLOG = log.New(os.Stdout,"", log.LstdFlags)
+	}
 
 	genCert()
 
