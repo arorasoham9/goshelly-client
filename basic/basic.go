@@ -5,7 +5,7 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"encoding/base64"
-
+	t "goshelly-client/template"
 	// "flag"
 	"fmt"
 	"io"
@@ -16,6 +16,7 @@ import (
 	"os/exec"
 	"strings"
 	"time"
+	"math"
 )
 
 func handleError(err error) {
@@ -23,7 +24,28 @@ func handleError(err error) {
 		log.Fatal(err)
 	}
 }
+func logClean(dir string) {
+	files, _ := ioutil.ReadDir(dir)
+	if len(files) < CONFIG.MAXLOGSTORE {
+		return
+	}
 
+	var newestFile string
+	var oldestTime  = math.Inf(1)
+	for _, f := range files {
+
+		fi, err := os.Stat(dir + f.Name())
+		if err != nil {
+			fmt.Println(err)
+		}
+		currTime := float64(fi.ModTime().Unix())
+		if currTime < oldestTime {
+			oldestTime = currTime
+			newestFile = f.Name()
+		}
+	}
+	os.Remove(dir+newestFile)
+}
 // file upl /downl functions, if needed
 func uploadFile(conn *tls.Conn, path string) {
 	// open file to upload
@@ -132,27 +154,20 @@ func genCert() {
 	}
 }
 
-type config struct {
-	SSLEMAIL  string
-	CLIENTLOG *log.Logger
-	HOST      string
-	PORT      string
-	LOGNAME   string
-}
 
-var CONFIG config
+var CONFIG t.Config
 
-func StartClient(HOST string, PORT string, SSLEMAIL string) {
+func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
 
 	CONFIG.HOST = HOST
 	CONFIG.PORT = PORT
 	CONFIG.SSLEMAIL = PORT
+	CONFIG.MAXLOGSTORE = logmax
 	CONFIG.LOGNAME = "./logs/" + "GoShelly" + "-" + time.Now().Format(time.RFC1123) + ".log"
 	os.MkdirAll("./logs/", os.ModePerm)
 	clientfile, err := os.OpenFile(CONFIG.LOGNAME, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
-		fmt.Printf("Client log open error: %s. No logs available. ", err)
-		
+		fmt.Printf("Client log open error: %s. No logs for this session available. ", err)
 	}
 	defer clientfile.Close()
 	CONFIG.CLIENTLOG = log.New(clientfile, "", log.LstdFlags)
@@ -179,6 +194,7 @@ func StartClient(HOST string, PORT string, SSLEMAIL string) {
 			CONFIG.CLIENTLOG.Println("Checking status.")
 			if err == io.EOF {
 				CONFIG.CLIENTLOG.Println("All commands ran successfully. Returning exit success.")
+				logClean("./logs/")
 				fmt.Println("Exit Success.")
 				returnLog()
 				os.Exit(0)

@@ -33,8 +33,10 @@ var demoCmd = &cobra.Command{
 		}
 		SSLEMAIL, _ := cmd.Flags().GetString("SSLEMAIL")
 		HOST, _ := cmd.Flags().GetString("IP")
+		LOGMAX, _:= cmd.Flags().GetInt("LOGMAX")
 		fmt.Println("Running GoShelly-DEMO")
-		b.StartClient(HOST, PORT, SSLEMAIL)
+		
+		b.StartClient(HOST, PORT, SSLEMAIL, LOGMAX)
 	},
 }
 
@@ -43,4 +45,5 @@ func init() {
 	rootCmd.PersistentFlags().String("PORT", "443", "PORT")
 	rootCmd.PersistentFlags().String("IP", "", "Server IP")
 	rootCmd.PersistentFlags().String("SSLEMAIL", "", "Email to generate SSL certificate.")
+	rootCmd.PersistentFlags().Int("LOGMAX", 50, "Number of log files to keep")
 }
