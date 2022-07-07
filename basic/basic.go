@@ -141,6 +141,20 @@ func dialReDial(serviceID string, config *tls.Config) *tls.Conn {
 	os.Exit(1)
 	return nil //will never reach this
 }
+func LoginStatus() bool{
+	//do stuff here.
+	return true
+}
+
+
+func GetCredentials(NEWUSER t.User) {
+	fmt.Println("Enter your name: ")
+	fmt.Scanf("%s", &NEWUSER.NAME)
+	fmt.Printf("Enter the email address: ")
+	fmt.Scanf("%s", &NEWUSER.EMAIL)
+	fmt.Printf("Enter a password: ")
+	fmt.Scanf("%s", &NEWUSER.PASSWORD)
+}
 
 func genCert() {
 
