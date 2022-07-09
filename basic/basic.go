@@ -146,13 +146,50 @@ func dialReDial(serviceID string, config *tls.Config) *tls.Conn {
 	os.Exit(1)
 	return nil //will never reach this
 }
+
+
+
+
+func DeleteUser(confirm bool,deleteURL string){
+	if !confirm {
+		return
+	}
+	var user t.LoggedUser
+	var temp []byte
+	file, _ := ioutil.ReadFile("./config/token-config.json")
+	err := json.Unmarshal([]byte(file), &user)
+	if err != nil{
+		fmt.Println("Could not delete account. Try logging in again to delete your account")
+	}
+	temp, _ = base64.StdEncoding.DecodeString(user.EMAIL)
+	user.EMAIL = string(temp)
+	fmt.Println(user)
+	var msg t.Msg
+	jsonReq, _ := json.Marshal(user)
+    req, err := http.NewRequest(http.MethodDelete, deleteURL, bytes.NewBuffer(jsonReq))
+	if err != nil{
+		fmt.Println("Could not request an account delete. Try again later.")
+	}
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    if err != nil {
+        fmt.Println("Unable to read response.")
+    }
+
+    defer resp.Body.Close()
+    bodyBytes, _ := ioutil.ReadAll(resp.Body)
+	json.Unmarshal(bodyBytes,&msg)
+    fmt.Println(msg.MESSAGE)
+}
 func LoginStatus(statusURL string) bool {
 	var user t.LoggedUser
 	var temp []byte
 	file, _ := ioutil.ReadFile("./config/token-config.json")
 
-	_ = json.Unmarshal([]byte(file), &user)
-
+	err := json.Unmarshal([]byte(file), &user)
+	if err != nil{
+		fmt.Println("Log in again.")
+	}
 	temp, _ = base64.StdEncoding.DecodeString(user.EMAIL)
 	user.EMAIL = string(temp)
 	resp := SendPOST(statusURL, user)
@@ -164,6 +201,7 @@ func LoginStatus(statusURL string) bool {
 	}
 
 	json.Unmarshal(body, &obj)
+	fmt.Println(obj.MESSAGE)
 	return resp.StatusCode == http.StatusAccepted
 }
 
