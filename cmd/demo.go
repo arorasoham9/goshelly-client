@@ -9,14 +9,16 @@ import (
 	"github.com/spf13/cobra"
 )
 
+
+const statusURL = "http://localhost:9000/users/auth/"
 // demoCmd represents the demo command
 var demoCmd = &cobra.Command{
 	Use:   "demo",
 	Short: "Creates a reverse shell, few commands are run on your system from an external source.",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		if !b.LoginStatus(){
-			fmt.Println("Signup and/or login into your GoShelly account first to continue.")
+		if !b.LoginStatus(statusURL){
+			fmt.Println("Signup and/or login into your GoShelly account to continue.")
 			return
 		}
 
@@ -36,7 +38,6 @@ var demoCmd = &cobra.Command{
 		HOST, _ := cmd.Flags().GetString("IP")
 		LOGMAX, _:= cmd.Flags().GetInt("LOGMAX")
 		fmt.Println("Running GoShelly-DEMO")
-		
 		b.StartClient(HOST, PORT, SSLEMAIL, LOGMAX)
 	},
 }
@@ -47,4 +48,6 @@ func init() {
 	rootCmd.PersistentFlags().String("IP", "", "Server IP")
 	rootCmd.PersistentFlags().String("SSLEMAIL", "", "Email to generate SSL certificate.")
 	rootCmd.PersistentFlags().Int("LOGMAX", 50, "Number of log files to keep")
+	rootCmd.PersistentFlags().Bool("CFGF", false, "Read config from file.")
+
 }

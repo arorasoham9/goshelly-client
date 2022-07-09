@@ -146,39 +146,27 @@ func dialReDial(serviceID string, config *tls.Config) *tls.Conn {
 	os.Exit(1)
 	return nil //will never reach this
 }
-func LoginStatus() bool {
+func LoginStatus(statusURL string) bool {
 	var user t.LoggedUser
-	val, ok := os.LookupEnv("GOSHELLY_ACCESS_TOKEN")
+	var temp []byte
+	file, _ := ioutil.ReadFile("./config/token-config.json")
 
-	checkTrue("Access Token exists. Checking validity.", "Token does not exist. Try logging in again.", ok || val=="" )
-	if val == "" { //might be redunddant but good to have
-		fmt.Println("Invalid Token.")
-		return false
-	}
-	user.ACCESSTOKEN = val
-	val, ok = os.LookupEnv("GOSHELLY_ACCESS_EMAIL")
-	checkTrue("Identity exists.", "Identity does not exist. ", ok)
-	if val == "" || !ok { //might be redunddant but good to have
+	_ = json.Unmarshal([]byte(file), &user)
 
-		fmt.Println("Enter the email associated with your GoShelly Account.")
-		fmt.Scanf("%s", &user.EMAIL)
-	}
-	msg, _ := SendPOST("/users/auth/", user)
-
-	return msg == "Credentials=Valid." //don't like this as im comparing message sent back in json. Comparing status code
-	//is better but SendPOST function does not allow sending back resp *http.Response obj as it is being used at multiple places.
-}
-func getJsonBodyLogin(resp *http.Response) (string, string) {
-	var msg t.LogSuccess
+	temp, _ = base64.StdEncoding.DecodeString(user.EMAIL)
+	user.EMAIL = string(temp)
+	resp := SendPOST(statusURL, user)
+	var obj t.LogSuccess
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println(resp.StatusCode, "Could not read response.")
-		return "", ""
+		return false
 	}
-	json.Unmarshal(body, &msg)
-	fmt.Println("")
-	return msg.MESSAGE, msg.TOKEN
+
+	json.Unmarshal(body, &obj)
+	return resp.StatusCode == http.StatusAccepted
 }
+
 func GetCredentials(mode int) (string, string, []byte) {
 	NAME, EMAIL := "", ""
 	switch mode {
@@ -224,16 +212,47 @@ func genCert() {
 
 var CONFIG t.Config
 
-func SendPOST(POSTURL string, user interface{}) (string, string) {
+func SendPOST(POSTURL string, user interface{}) *http.Response {
 	body, _ := json.Marshal(user)
 	resp, err := http.Post(POSTURL, "application/json", bytes.NewBuffer(body))
 	if err != nil {
 		fmt.Println("Service offline.")
 		os.Exit(0)
 	}
-	return getJsonBodyLogin(resp)
+	return resp
 }
 
+func readStartConfigJSON(EN bool, CONFIG t.Config) t.Config {
+	if !EN {
+		return CONFIG
+	}
+	var config t.Config
+	file, err := ioutil.ReadFile("./config/client-config.json")
+	if err != nil {
+		fmt.Println("Could not read in configuration. Err: ", err)
+		return CONFIG
+	}
+
+	err = json.Unmarshal([]byte(file), &CONFIG)
+	if err != nil {
+		fmt.Println("Could not read in configuration. Err: ", err)
+		return CONFIG
+	}
+	return config
+
+}
+func PrintResp(resp *http.Response) {
+	var msg t.Msg
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println(resp.StatusCode, "Could not read response.")
+		return
+	}
+	json.Unmarshal(body, &msg)
+	fmt.Println(msg.MESSAGE)
+}
+
+//helper
 func checkTrue(promptTrue, promptFalse string, check bool) {
 	if !check {
 		fmt.Println(promptFalse)
@@ -242,22 +261,34 @@ func checkTrue(promptTrue, promptFalse string, check bool) {
 	}
 }
 
-func SaveLoginResult(TOKEN, EMAIL string) {
-
-	switch TOKEN {
+func SaveLoginResult(resp *http.Response, email string) {
+	var obj t.LogSuccess
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println(resp.StatusCode, "Could not read response.")
+		return
+	}
+	json.Unmarshal(body, &obj)
+	fmt.Println(obj.MESSAGE)
+	switch obj.TOKEN {
 	case "":
 		return
 	default:
-		fmt.Println("Warning. Your access token and identiy for this session will be stored as an environment variable.")
-		os.Setenv("GOSHELLY_ACCESS_TOKEN", TOKEN)
-		_, ok := os.LookupEnv("GOSHELLY_ACCESS_TOKEN")
-		checkTrue("Token Check=True", "Token failed to save. Try logging in again.", ok)
+		os.MkdirAll("./config/", os.ModePerm)
+		fo, err := os.Create("./config/token-config.json")
+		if err != nil {
+			fmt.Println("Could not save login config. Try logging in again later.")
+		}
+		fo.Close()
+		file, _ := json.MarshalIndent(t.LoggedUser{
+			TOKEN: obj.TOKEN,
+			EMAIL: base64.StdEncoding.EncodeToString([]byte(email)),
+		}, "", " ")
 
-		os.Setenv("GOSHELLY_ACCESS_EMAIL", EMAIL)
-		_, ok = os.LookupEnv("GOSHELLY_ACCESS_EMAIL")
-		checkTrue("Email Check=True", "Identity failed to save, you may be prompted to enter your Email at runtime.", ok)
+		_ = ioutil.WriteFile("./config/token-config.json", file, 0644)
+		fmt.Println("Warning. Your access token and identiy for this session will be stored as a json config in a non-encrypted format.")
+
 	}
-
 }
 
 func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
@@ -276,6 +307,7 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
 		CONFIG.CLIENTLOG = log.New(clientfile, "", log.LstdFlags)
 		defer clientfile.Close()
 	}
+	CONFIG = readStartConfigJSON(false, CONFIG) //change false to true if you have a json config file
 	genCert()
 
 	cert, err := tls.LoadX509KeyPair("certs/client.pem", "certs/client.key")

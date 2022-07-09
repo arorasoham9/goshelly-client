@@ -26,10 +26,11 @@ type LogSuccess struct {
 	TOKEN string `json:"token"`
 	MESSAGE string `json:"message"`
 }
+
 type LoggedUser struct {
 	// NAME        string `json:"name"`
 	EMAIL       string `json:"email"`
-	ACCESSTOKEN string `json:"token"`
+	TOKEN string `json:"token"`
 }
 
 type LoginUser struct {
