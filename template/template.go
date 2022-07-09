@@ -32,7 +32,6 @@ type LoggedUser struct {
 	ACCESSTOKEN string `json:"token"`
 }
 
-
 type LoginUser struct {
 	EMAIL    string `json:"email"`
 	PASSWORD []byte `json:"pwd"`

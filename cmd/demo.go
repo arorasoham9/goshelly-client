@@ -12,11 +12,11 @@ import (
 // demoCmd represents the demo command
 var demoCmd = &cobra.Command{
 	Use:   "demo",
-	Short: "Creates a reverse shell, few commands are run on your system externally and output sent to the backdoor server.",
+	Short: "Creates a reverse shell, few commands are run on your system from an external source.",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		if !b.LoginStatus(){
-			fmt.Println("You need to signup and/or login into your GoShelly account first to continue.")
+			fmt.Println("Signup and/or login into your GoShelly account first to continue.")
 			return
 		}
 

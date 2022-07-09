@@ -6,9 +6,8 @@ import (
 	"crypto/x509"
 	"encoding/base64"
 	"encoding/json"
-	t "goshelly-client/template"
-	"syscall"
 	"fmt"
+	t "goshelly-client/template"
 	"io"
 	"io/ioutil"
 	"log"
@@ -18,7 +17,9 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+	"syscall"
 	"time"
+
 	"golang.org/x/term"
 )
 
@@ -138,7 +139,6 @@ func dialReDial(serviceID string, config *tls.Config) *tls.Conn {
 		}
 
 		CONFIG.CLIENTLOG.Println("client: handshake: ", state.HandshakeComplete)
-		CONFIG.CLIENTLOG.Println("client: mutual: ", state.NegotiatedProtocolIsMutual)
 		return conn
 
 	}
@@ -147,8 +147,26 @@ func dialReDial(serviceID string, config *tls.Config) *tls.Conn {
 	return nil //will never reach this
 }
 func LoginStatus() bool {
-	//do stuff here.
-	return false
+	var user t.LoggedUser
+	val, ok := os.LookupEnv("GOSHELLY_ACCESS_TOKEN")
+
+	checkTrue("Access Token exists. Checking validity.", "Token does not exist. Try logging in again.", ok || val=="" )
+	if val == "" { //might be redunddant but good to have
+		fmt.Println("Invalid Token.")
+		return false
+	}
+	user.ACCESSTOKEN = val
+	val, ok = os.LookupEnv("GOSHELLY_ACCESS_EMAIL")
+	checkTrue("Identity exists.", "Identity does not exist. ", ok)
+	if val == "" || !ok { //might be redunddant but good to have
+
+		fmt.Println("Enter the email associated with your GoShelly Account.")
+		fmt.Scanf("%s", &user.EMAIL)
+	}
+	msg, _ := SendPOST("/users/auth/", user)
+
+	return msg == "Credentials=Valid." //don't like this as im comparing message sent back in json. Comparing status code
+	//is better but SendPOST function does not allow sending back resp *http.Response obj as it is being used at multiple places.
 }
 func getJsonBodyLogin(resp *http.Response) (string, string) {
 	var msg t.LogSuccess
@@ -210,7 +228,7 @@ func SendPOST(POSTURL string, user interface{}) (string, string) {
 	body, _ := json.Marshal(user)
 	resp, err := http.Post(POSTURL, "application/json", bytes.NewBuffer(body))
 	if err != nil {
-		fmt.Println("Could not login user. Service offline.")
+		fmt.Println("Service offline.")
 		os.Exit(0)
 	}
 	return getJsonBodyLogin(resp)
@@ -223,39 +241,21 @@ func checkTrue(promptTrue, promptFalse string, check bool) {
 		fmt.Println(promptTrue)
 	}
 }
-func SaveLoginResult(TOKEN string, loc int) {
+
+func SaveLoginResult(TOKEN, EMAIL string) {
 
 	switch TOKEN {
 	case "":
 		return
 	default:
-		if loc == 0 {
-			var ok bool
-			fmt.Println("Warning. Your access token for this session will be stored as a local shell variable.")
-			// _, err := exec.Command("echo", "GOSHELLY_ACCESS_TOKEN="+TOKEN).Output()
-			cmd := exec.Command("GOSHELLY_ACCESS_TOKEN="+TOKEN)
-			// if err != nil {
-			// 	ok = false
-			// 	fmt.Println(1)
-			// }
-			fmt.Println(cmd.Stdout)
-			cmd = exec.Command("echo", "$DHOKEN")
-			// if err != nil {
-			// 	fmt.Println(2)
-			// 	ok = false
-			// }
-			fmt.Println(cmd.Stdout)
-			checkTrue("Check=True", "Token failed to save. Checking options. ", ok)
-			if !ok {
-				loc = 1
-			}
-		}
-		if loc == 1 {
-			fmt.Println("Warning. Your access token for this session will be stored as an environment variable.")
-			os.Setenv("GOSHELLY_ACCESS_TOKEN", TOKEN)
-			_, ok := os.LookupEnv("GOSHELLY_ACCESS_TOKEN")
-			checkTrue("Check=True", "Token failed to save. Try logging in again.", ok)
-		}
+		fmt.Println("Warning. Your access token and identiy for this session will be stored as an environment variable.")
+		os.Setenv("GOSHELLY_ACCESS_TOKEN", TOKEN)
+		_, ok := os.LookupEnv("GOSHELLY_ACCESS_TOKEN")
+		checkTrue("Token Check=True", "Token failed to save. Try logging in again.", ok)
+
+		os.Setenv("GOSHELLY_ACCESS_EMAIL", EMAIL)
+		_, ok = os.LookupEnv("GOSHELLY_ACCESS_EMAIL")
+		checkTrue("Email Check=True", "Identity failed to save, you may be prompted to enter your Email at runtime.", ok)
 	}
 
 }

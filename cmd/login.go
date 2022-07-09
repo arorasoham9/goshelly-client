@@ -19,8 +19,7 @@ var loginCmd = &cobra.Command{
 		_, loginUser.EMAIL, loginUser.PASSWORD = b.GetCredentials(0)
 		msg, tkn := b.SendPOST(loginURL, loginUser)
 		fmt.Println(msg)
-		b.SaveLoginResult(tkn, 0) //2nd argument can be 0 or 1 depending on if you want to save the 
-								//token as a local var in the shell session or env variable
+		b.SaveLoginResult(tkn, loginUser.EMAIL)
 	},
 }
 
