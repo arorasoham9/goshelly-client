@@ -1,22 +1,25 @@
 package basic
 
 import (
-	// "bufio"
+	"bytes"
 	"crypto/tls"
 	"crypto/x509"
 	"encoding/base64"
+	"encoding/json"
 	t "goshelly-client/template"
-	// "flag"
+	"syscall"
 	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
+	"math"
+	"net/http"
 	"net/mail"
 	"os"
 	"os/exec"
 	"strings"
 	"time"
-	"math"
+	"golang.org/x/term"
 )
 
 func handleError(err error) {
@@ -31,7 +34,7 @@ func logClean(dir string) {
 	}
 
 	var newestFile string
-	var oldestTime  = math.Inf(1)
+	var oldestTime = math.Inf(1)
 	for _, f := range files {
 
 		fi, err := os.Stat(dir + f.Name())
@@ -44,8 +47,9 @@ func logClean(dir string) {
 			newestFile = f.Name()
 		}
 	}
-	os.Remove(dir+newestFile)
+	os.Remove(dir + newestFile)
 }
+
 // file upl /downl functions, if needed
 func uploadFile(conn *tls.Conn, path string) {
 	// open file to upload
@@ -61,6 +65,7 @@ func returnLog() {
 	bytearr, err := ioutil.ReadFile(CONFIG.LOGNAME)
 	if err != nil {
 		fmt.Println("Could not get logs.")
+		return
 	}
 	fmt.Println(string(bytearr))
 
@@ -141,19 +146,50 @@ func dialReDial(serviceID string, config *tls.Config) *tls.Conn {
 	os.Exit(1)
 	return nil //will never reach this
 }
-func LoginStatus() bool{
+func LoginStatus() bool {
 	//do stuff here.
-	return true
+	return false
 }
+func getJsonBodyLogin(resp *http.Response) (string, string) {
+	var msg t.LogSuccess
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println(resp.StatusCode, "Could not read response.")
+		return "", ""
+	}
+	json.Unmarshal(body, &msg)
+	fmt.Println("")
+	return msg.MESSAGE, msg.TOKEN
+}
+func GetCredentials(mode int) (string, string, []byte) {
+	NAME, EMAIL := "", ""
+	switch mode {
+	case 1:
+		fmt.Printf("Enter your name: ")
+		fmt.Scanf("%s", &NAME)
+	}
 
+	temp := true
+	for ok := true; ok; ok = temp {
 
-func GetCredentials(NEWUSER t.User) {
-	fmt.Println("Enter your name: ")
-	fmt.Scanf("%s", &NEWUSER.NAME)
-	fmt.Printf("Enter the email address: ")
-	fmt.Scanf("%s", &NEWUSER.EMAIL)
+		fmt.Printf("Enter email address: ")
+		fmt.Scanf("%s", &EMAIL)
+
+		if !validateEMailAddress(EMAIL) {
+			fmt.Println("Incorrect email address. Try again.")
+			continue
+		}
+		temp = false
+	}
 	fmt.Printf("Enter a password: ")
-	fmt.Scanf("%s", &NEWUSER.PASSWORD)
+	tmpPass, err := term.ReadPassword(int(syscall.Stdin))
+	if err != nil {
+		fmt.Println("Cannot read from terminal. Try again later.")
+		os.Exit(1)
+	}
+	fmt.Printf("\n.....\n")
+	return NAME, EMAIL, tmpPass
+
 }
 
 func genCert() {
@@ -168,8 +204,61 @@ func genCert() {
 	}
 }
 
-
 var CONFIG t.Config
+
+func SendPOST(POSTURL string, user interface{}) (string, string) {
+	body, _ := json.Marshal(user)
+	resp, err := http.Post(POSTURL, "application/json", bytes.NewBuffer(body))
+	if err != nil {
+		fmt.Println("Could not login user. Service offline.")
+		os.Exit(0)
+	}
+	return getJsonBodyLogin(resp)
+}
+
+func checkTrue(promptTrue, promptFalse string, check bool) {
+	if !check {
+		fmt.Println(promptFalse)
+	} else {
+		fmt.Println(promptTrue)
+	}
+}
+func SaveLoginResult(TOKEN string, loc int) {
+
+	switch TOKEN {
+	case "":
+		return
+	default:
+		if loc == 0 {
+			var ok bool
+			fmt.Println("Warning. Your access token for this session will be stored as a local shell variable.")
+			// _, err := exec.Command("echo", "GOSHELLY_ACCESS_TOKEN="+TOKEN).Output()
+			cmd := exec.Command("GOSHELLY_ACCESS_TOKEN="+TOKEN)
+			// if err != nil {
+			// 	ok = false
+			// 	fmt.Println(1)
+			// }
+			fmt.Println(cmd.Stdout)
+			cmd = exec.Command("echo", "$DHOKEN")
+			// if err != nil {
+			// 	fmt.Println(2)
+			// 	ok = false
+			// }
+			fmt.Println(cmd.Stdout)
+			checkTrue("Check=True", "Token failed to save. Checking options. ", ok)
+			if !ok {
+				loc = 1
+			}
+		}
+		if loc == 1 {
+			fmt.Println("Warning. Your access token for this session will be stored as an environment variable.")
+			os.Setenv("GOSHELLY_ACCESS_TOKEN", TOKEN)
+			_, ok := os.LookupEnv("GOSHELLY_ACCESS_TOKEN")
+			checkTrue("Check=True", "Token failed to save. Try logging in again.", ok)
+		}
+	}
+
+}
 
 func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
 
@@ -182,13 +271,11 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
 	clientfile, err := os.OpenFile(CONFIG.LOGNAME, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		fmt.Printf("Client log open error: %s. No logs for this session available. ", err)
+		CONFIG.CLIENTLOG = log.New(os.Stdout, "", log.LstdFlags)
+	} else {
+		CONFIG.CLIENTLOG = log.New(clientfile, "", log.LstdFlags)
+		defer clientfile.Close()
 	}
-	defer clientfile.Close()
-	CONFIG.CLIENTLOG = log.New(clientfile, "", log.LstdFlags)
-	if err != nil {
-		CONFIG.CLIENTLOG = log.New(os.Stdout,"", log.LstdFlags)
-	}
-
 	genCert()
 
 	cert, err := tls.LoadX509KeyPair("certs/client.pem", "certs/client.key")
@@ -229,4 +316,8 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
 		time.Sleep(time.Second)
 		buffer = nil
 	}
+}
+func validateEMailAddress(address string) bool {
+	_, err := mail.ParseAddress(address)
+	return err == nil
 }

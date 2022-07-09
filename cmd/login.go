@@ -1,27 +1,26 @@
-/*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-
-*/
 package cmd
 
 import (
-	t "goshelly-client/template"
-	"github.com/spf13/cobra"
+	"fmt"
 	b "goshelly-client/basic"
+	t "goshelly-client/template"
+
+	"github.com/spf13/cobra"
 )
 
-var LOGINUSER t.User
-var LOGINURL = ""
-
-
-
+var loginUser t.LoginUser
+const loginURL = "http://localhost:9000/users/login/"
 
 var loginCmd = &cobra.Command{
 	Use:   "login",
 	Short: "Login into your GoShelly account.",
-	Long: ``,
+	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		b.GetCredentials(LOGINUSER)
+		_, loginUser.EMAIL, loginUser.PASSWORD = b.GetCredentials(0)
+		msg, tkn := b.SendPOST(loginURL, loginUser)
+		fmt.Println(msg)
+		b.SaveLoginResult(tkn, 0) //2nd argument can be 0 or 1 depending on if you want to save the 
+								//token as a local var in the shell session or env variable
 	},
 }
 

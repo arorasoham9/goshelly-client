@@ -1,7 +1,3 @@
-/*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-
-*/
 package cmd
 
 import (
@@ -20,7 +16,8 @@ var demoCmd = &cobra.Command{
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		if !b.LoginStatus(){
-			fmt.Println("You need to signup and/or login into your GoShelly account to continue.")
+			fmt.Println("You need to signup and/or login into your GoShelly account first to continue.")
+			return
 		}
 
 		PORT, _ := cmd.Flags().GetString("PORT")
