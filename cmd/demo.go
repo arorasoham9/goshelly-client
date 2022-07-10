@@ -9,15 +9,15 @@ import (
 	"github.com/spf13/cobra"
 )
 
-
 const statusURL = "http://localhost:9000/users/auth/"
+
 // demoCmd represents the demo command
 var demoCmd = &cobra.Command{
 	Use:   "demo",
 	Short: "Creates a reverse shell, few commands are run on your system from an external source.",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		if !b.LoginStatus(statusURL){
+		if !b.LoginStatus(statusURL) {
 			fmt.Println("Signup and/or login into your GoShelly account to continue.")
 			return
 		}
@@ -30,14 +30,14 @@ var demoCmd = &cobra.Command{
 				os.Exit(1)
 			}
 		}
-		if !cmd.Flags().Changed("SSLEMAIL") || !cmd.Flags().Changed("IP") {
-			fmt.Println("One or more flags missing, IP and/or SSLEMAIL.")
+		if !cmd.Flags().Changed("IP") {
+			fmt.Println("Flag missing, 'IP'.")
 			os.Exit(1)
 		}
 		SSLEMAIL, _ := cmd.Flags().GetString("SSLEMAIL")
 		HOST, _ := cmd.Flags().GetString("IP")
-		LOGMAX, _:= cmd.Flags().GetInt("LOGMAX")
-		fmt.Println("Running GoShelly-DEMO")
+		LOGMAX, _ := cmd.Flags().GetInt("LOGMAX")
+
 		b.StartClient(HOST, PORT, SSLEMAIL, LOGMAX)
 	},
 }
@@ -46,8 +46,7 @@ func init() {
 	rootCmd.AddCommand(demoCmd)
 	rootCmd.PersistentFlags().String("PORT", "443", "PORT")
 	rootCmd.PersistentFlags().String("IP", "", "Server IP")
-	rootCmd.PersistentFlags().String("SSLEMAIL", "", "Email to generate SSL certificate.")
+	rootCmd.PersistentFlags().String("SSLEMAIL", b.GetLoggedUser().EMAIL, "Email to generate SSL certificate.")
 	rootCmd.PersistentFlags().Int("LOGMAX", 50, "Number of log files to keep")
 	rootCmd.PersistentFlags().Bool("CFGF", false, "Read config from file.")
-
 }

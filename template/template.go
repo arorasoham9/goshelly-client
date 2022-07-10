@@ -23,13 +23,12 @@ type Msg struct {
 }
 
 type LogSuccess struct {
-	TOKEN string `json:"token"`
+	TOKEN   string `json:"token"`
 	MESSAGE string `json:"message"`
 }
 
 type LoggedUser struct {
-	// NAME        string `json:"name"`
-	EMAIL       string `json:"email"`
+	EMAIL string `json:"email"`
 	TOKEN string `json:"token"`
 }
 

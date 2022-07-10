@@ -22,6 +22,11 @@ var signupCmd = &cobra.Command{
 		newUser.NAME,newUser.EMAIL,newUser.PASSWORD = b.GetCredentials(1)
 		resp := b.SendPOST(signupURL,newUser)
 		b.PrintResp(resp)
+		LoginRun(loginURL, t.LoginUser{
+			EMAIL: newUser.EMAIL,
+			PASSWORD: newUser.PASSWORD,
+		})
+
 	},
 }
 

