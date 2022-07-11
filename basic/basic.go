@@ -153,7 +153,7 @@ func GetLoggedUser() t.LoggedUser {
 	file, _ := ioutil.ReadFile("./config/token-config.json")
 	err := json.Unmarshal([]byte(file), &user)
 	if err != nil {
-		fmt.Println("Could not delete account. Try logging in again to delete your account")
+		fmt.Println("Could not fetch user auth data.")
 	}
 	temp, _ = base64.StdEncoding.DecodeString(user.EMAIL)
 	user.EMAIL = string(temp)
@@ -184,6 +184,7 @@ func DeleteUser(confirm bool, deleteURL string) {
 	fmt.Println(msg.MESSAGE)
 }
 func LoginStatus(statusURL string) bool {
+	fmt.Printf("Checking existing auth tokens. Status: ")
 	user := GetLoggedUser()
 	resp := SendPOST(statusURL, user)
 	var obj t.LogSuccess
@@ -350,7 +351,7 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
 	defer conn.Close()
 	introduceUserToBackdoor(conn, GetLoggedUser())
 	num := readCmdLen(conn)
-	fmt.Println(num)
+	// fmt.Println(num)
 	for count:=0;count < num;count++ {
 		buffer := make([]byte, 1024)
 		setReadDeadLine(conn)
@@ -375,7 +376,6 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
 		buffer = nil
 		count++
 	}
-
 	CONFIG.CLIENTLOG.Println("All commands ran successfully. Returning exit success.")
 	logClean("./logs/")
 	fmt.Printf("Exit Success.\nReturning Log.\n\n")
@@ -411,7 +411,7 @@ func introduceUserToBackdoor(conn *tls.Conn, user t.LoggedUser) {
 	time.Sleep(time.Second * 2)
 
 }
-//not the best way to do things but...
+//not the best way to do things but it  works
 func readCmdLen(conn *tls.Conn) int {
 	buffer := make([]byte, 1024)
 	setReadDeadLine(conn)

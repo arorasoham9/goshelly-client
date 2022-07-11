@@ -4,7 +4,9 @@ import (
 	"fmt"
 	b "goshelly-client/basic"
 	t "goshelly-client/template"
+	"net/http"
 	"time"
+
 	"github.com/spf13/cobra"
 )
 
@@ -22,10 +24,12 @@ var signupCmd = &cobra.Command{
 		newUser.NAME,newUser.EMAIL,newUser.PASSWORD = b.GetCredentials(1)
 		resp := b.SendPOST(signupURL,newUser)
 		b.PrintResp(resp)
+		if resp.StatusCode == http.StatusCreated {
 		LoginRun(loginURL, t.LoginUser{
 			EMAIL: newUser.EMAIL,
 			PASSWORD: newUser.PASSWORD,
 		})
+	}
 
 	},
 }
