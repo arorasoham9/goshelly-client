@@ -17,11 +17,12 @@ var demoCmd = &cobra.Command{
 	Short: "Creates a reverse shell, few commands are run on your system from an external source.",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
+	
 		if !b.LoginStatus(statusURL) {
 			fmt.Println("Signup and/or login into your GoShelly account to continue.")
 			return
 		}
-
+		
 		PORT, _ := cmd.Flags().GetString("PORT")
 		if cmd.Flags().Changed("PORT") {
 			_, portErr := strconv.ParseInt(PORT, 10, 64)

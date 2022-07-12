@@ -40,7 +40,6 @@ func getLogs() {
 	}
 	json.Unmarshal(body, &str)
 	fmt.Println(str.MESSAGE)
-
 }
 func init() {
 	rootCmd.AddCommand(listCmd)

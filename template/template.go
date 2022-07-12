@@ -27,6 +27,13 @@ type LogSuccess struct {
 	MESSAGE string `json:"message"`
 }
 
+type UserLinks struct{
+	EMAIL string `json:"email"`
+	TOKEN string `json:"token"`
+	LOGID int  `json:"logid"`
+	
+}
+
 type LoggedUser struct {
 	EMAIL string `json:"email"`
 	TOKEN string `json:"token"`
