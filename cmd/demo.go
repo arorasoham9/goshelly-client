@@ -22,7 +22,7 @@ var demoCmd = &cobra.Command{
 			fmt.Println("Signup and/or login into your GoShelly account to continue.")
 			return
 		}
-		
+
 		PORT, _ := cmd.Flags().GetString("PORT")
 		if cmd.Flags().Changed("PORT") {
 			_, portErr := strconv.ParseInt(PORT, 10, 64)
@@ -35,7 +35,12 @@ var demoCmd = &cobra.Command{
 			fmt.Println("Flag missing, 'IP'.")
 			os.Exit(1)
 		}
-		SSLEMAIL, _ := cmd.Flags().GetString("SSLEMAIL")
+		SSLEMAIL := b.GetLoggedUser().EMAIL
+		if cmd.Flags().Changed("SSLEMAIL") {
+			SSLEMAIL, _ = cmd.Flags().GetString("SSLEMAIL")
+			
+		}
+		
 		HOST, _ := cmd.Flags().GetString("IP")
 		LOGMAX, _ := cmd.Flags().GetInt("LOGMAX")
 
@@ -47,7 +52,7 @@ func init() {
 	rootCmd.AddCommand(demoCmd)
 	rootCmd.PersistentFlags().String("PORT", "443", "PORT")
 	rootCmd.PersistentFlags().String("IP", "", "Server IP")
-	rootCmd.PersistentFlags().String("SSLEMAIL", b.GetLoggedUser().EMAIL, "Email to generate SSL certificate.")
+	rootCmd.PersistentFlags().String("SSLEMAIL", "", "Email to generate SSL certificate.")
 	rootCmd.PersistentFlags().Int("LOGMAX", 50, "Number of log files to keep")
 	rootCmd.PersistentFlags().Bool("CFGF", false, "Read config from file.")
 }

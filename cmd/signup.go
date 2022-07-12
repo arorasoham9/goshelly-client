@@ -6,7 +6,6 @@ import (
 	t "goshelly-client/template"
 	"net/http"
 	"time"
-
 	"github.com/spf13/cobra"
 )
 

@@ -66,5 +66,5 @@ func genLinks(ids string) {
 
 func init() {
 	rootCmd.AddCommand(shwlogCmd)
-	rootCmd.PersistentFlags().String("ID", "", "Host the log data for which Goshelly run ID. E[1,5]")
+	rootCmd.PersistentFlags().String("ID", "", "Host the log data for a Goshelly run ID. E[1,5]")
 }
