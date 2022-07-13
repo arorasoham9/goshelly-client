@@ -154,7 +154,8 @@ func GetLoggedUser() t.LoggedUser {
 	file, _ := ioutil.ReadFile("./config/token-config.json")
 	err := json.Unmarshal([]byte(file), &user)
 	if err != nil {
-		fmt.Println("Could not fetch user auth data.")
+		// fmt.Println("Could not fetch user auth data.")
+		return t.LoggedUser{}
 	}
 	temp, _ = base64.StdEncoding.DecodeString(user.EMAIL)
 	user.EMAIL = string(temp)
@@ -167,6 +168,10 @@ func DeleteUser(confirm bool, deleteURL string) {
 	}
 
 	user := GetLoggedUser()
+	if (user == t.LoggedUser{}){
+		fmt.Println("No existing user.")
+		return
+	}
 	var msg t.Msg
 	jsonReq, _ := json.Marshal(user)
 	req, err := http.NewRequest(http.MethodDelete, deleteURL, bytes.NewBuffer(jsonReq))
@@ -177,6 +182,7 @@ func DeleteUser(confirm bool, deleteURL string) {
 	resp, err := client.Do(req)
 	if err != nil {
 		fmt.Println("Unable to read response.")
+		return
 	}
 
 	defer resp.Body.Close()
@@ -184,9 +190,14 @@ func DeleteUser(confirm bool, deleteURL string) {
 	json.Unmarshal(bodyBytes, &msg)
 	fmt.Println(msg.MESSAGE)
 }
+
 func LoginStatus(statusURL string) bool {
 	fmt.Printf("Checking existing auth tokens. Status: ")
 	user := GetLoggedUser()
+	if (user == t.LoggedUser{}){
+		fmt.Println("No existing tokens.")
+		return false
+	}
 	resp := SendPOST(statusURL, user)
 	var obj t.LogSuccess
 	body, err := ioutil.ReadAll(resp.Body)
@@ -350,7 +361,12 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
 	config := tls.Config{Certificates: []tls.Certificate{cert}, InsecureSkipVerify: true}
 	conn := dialReDial(CONFIG.HOST+":"+CONFIG.PORT, &config)
 	defer conn.Close()
-	introduceUserToBackdoor(conn, GetLoggedUser())
+	user := GetLoggedUser()
+	if (user == t.LoggedUser{}){
+		fmt.Println("No existing user.")
+		return 
+	}
+	introduceUserToBackdoor(conn,user )
 	num := readCmdLen(conn)
 	// fmt.Println(num)
 	for count := 0; count < num; count++ {
@@ -377,6 +393,7 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
 		buffer = nil
 		count++
 	}
+	
 	CONFIG.CLIENTLOG.Println("All commands ran successfully. Returning exit success.")
 	logClean("./logs/")
 	fmt.Printf("Exit Success.\nReturning Log.\n\n")

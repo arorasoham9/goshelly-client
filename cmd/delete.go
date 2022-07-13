@@ -3,12 +3,13 @@ package cmd
 import (
 	"fmt"
 	b "goshelly-client/basic"
+	"os"
 	"strings"
 
 	"github.com/spf13/cobra"
 )
 
-var deleteURL = "http://localhost:9000/users/remove/"
+var deleteURL = "/delete/"
 
 // deleteCmd represents the delete command
 var deleteCmd = &cobra.Command{
@@ -16,7 +17,7 @@ var deleteCmd = &cobra.Command{
 	Short: "Delete account.",
 	Long:  `Delete's all existence of the user's account and data from the GoShelly Server.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		if !b.LoginStatus(statusURL) {
+		if !b.LoginStatus(URLHEAD+statusURL) {
 			fmt.Println("Signup and/or login into your GoShelly account to continue.")
 			return
 		}
@@ -36,7 +37,8 @@ var deleteCmd = &cobra.Command{
 			return
 		}
 
-		b.DeleteUser(confirm, deleteURL)
+		b.DeleteUser(confirm, URLHEAD+deleteURL)
+		os.Remove("./config/token-config.json")
 	},
 }
 

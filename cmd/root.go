@@ -1,7 +1,3 @@
-/*
-Copyright © 2022 Soham Arora arorasoham9@gmail.com
-
-*/
 package cmd
 
 import (
@@ -9,7 +5,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-
+var URLHEAD = "http://localhost:9000"
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{

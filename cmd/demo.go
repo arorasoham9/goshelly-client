@@ -9,7 +9,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-const statusURL = "http://localhost:9000/users/auth/"
+const statusURL = "/auth/"
 
 // demoCmd represents the demo command
 var demoCmd = &cobra.Command{
@@ -18,7 +18,7 @@ var demoCmd = &cobra.Command{
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 	
-		if !b.LoginStatus(statusURL) {
+		if !b.LoginStatus(URLHEAD+statusURL) {
 			fmt.Println("Signup and/or login into your GoShelly account to continue.")
 			return
 		}

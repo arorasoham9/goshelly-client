@@ -9,11 +9,15 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
-
 	"github.com/spf13/cobra"
 )
 
-const logURL = "http://localhost:9000/users/results/"
+const logURL = "/link/"
+const discprompt = 
+`NOTE: Each requested log is made available for a short period of time at the URL returned.
+Changing parts of this link will NOT lead to other logs. This link is not transferrable, 
+only the requesting computer will be able to access the contents of the link generated.
+	`
 
 // shwlogCmd represents the shwlog command
 var shwlogCmd = &cobra.Command{
@@ -21,7 +25,7 @@ var shwlogCmd = &cobra.Command{
 	Short: "See logs from your GoShelly runs.",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		if !b.LoginStatus(statusURL) {
+		if !b.LoginStatus(URLHEAD+statusURL) {
 			fmt.Println("Signup and/or login into your GoShelly account to continue.")
 			return
 		}
@@ -46,12 +50,14 @@ func genLinks(ids string) {
 		TOKEN: tempUser.TOKEN,
 		LOGID: i,
 	}
-	resp := b.SendPOST(logURL, user)
+	resp := b.SendPOST(URLHEAD+logURL, user)
 	body, err := ioutil.ReadAll(resp.Body)
+	
 	if err != nil {
 		fmt.Println(resp.StatusCode, "Could not read response.")
 		return
 	}
+
 	json.Unmarshal(body, &obj)
 	if resp.StatusCode != http.StatusOK {
 		fmt.Println(obj.MESSAGE)
@@ -61,7 +67,10 @@ func genLinks(ids string) {
 	if err != nil {
 		fmt.Println("Could not parse log link.")
 	}
-	fmt.Printf("\nYou can find the requested log here: %+v\n", u)
+	
+	fmt.Printf("\nYou can find the requested log here: %+v\n\n", u)
+	fmt.Println(discprompt)
+	
 }
 
 func init() {
