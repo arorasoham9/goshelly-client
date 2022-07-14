@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	t "goshelly-client/template"
@@ -44,6 +45,8 @@ func GetDom() string {
 		fmt.Println("Could not read in configuration. Err: ", err)
 		os.Exit(1)
 	}
-	return config.IP
+	sDec, _ := base64.StdEncoding.DecodeString(config.IP)
+	return "http://" + string(sDec) + ":9000"
+
 
 }
