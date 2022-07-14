@@ -17,12 +17,12 @@ var loginCmd = &cobra.Command{
 	Short: "Login into your GoShelly account.",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		if b.LoginStatus(URLHEAD+statusURL) {
+		if b.LoginStatus(GetDom()+statusURL) {
 			fmt.Println("Already logged in as: ", b.GetLoggedUser().EMAIL)
 			return
 		}
 		_, loginUser.EMAIL, loginUser.PASSWORD = b.GetCredentials(0)
-		LoginRun(URLHEAD+loginURL,loginUser)
+		LoginRun(GetDom()+loginURL,loginUser)
 	},
 }
 

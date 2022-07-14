@@ -26,12 +26,14 @@ type LogSuccess struct {
 	TOKEN   string `json:"token"`
 	MESSAGE string `json:"message"`
 }
-
+type ApiConnIP struct {
+	IP string `json:"ip"`
+}
 type UserLinks struct{
 	EMAIL string `json:"email"`
 	TOKEN string `json:"token"`
 	LOGID int  `json:"logid"`
-	
+
 }
 
 type LoggedUser struct {

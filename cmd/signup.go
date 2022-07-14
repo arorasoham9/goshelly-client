@@ -21,10 +21,10 @@ var signupCmd = &cobra.Command{
 		fmt.Println("In the event you cannot remember your password, you will need to delete your account and all data with it.")
 		time.Sleep(time.Second * 1)
 		newUser.NAME,newUser.EMAIL,newUser.PASSWORD = b.GetCredentials(1)
-		resp := b.SendPOST(URLHEAD+signupURL,newUser)
+		resp := b.SendPOST(GetDom()+signupURL,newUser)
 		b.PrintResp(resp)
 		if resp.StatusCode == http.StatusCreated {
-		LoginRun(URLHEAD+loginURL, t.LoginUser{
+		LoginRun(GetDom()+loginURL, t.LoginUser{
 			EMAIL: newUser.EMAIL,
 			PASSWORD: newUser.PASSWORD,
 		})

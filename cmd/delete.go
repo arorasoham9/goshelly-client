@@ -17,7 +17,7 @@ var deleteCmd = &cobra.Command{
 	Short: "Delete account.",
 	Long:  `Delete's all existence of the user's account and data from the GoShelly Server.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		if !b.LoginStatus(URLHEAD+statusURL) {
+		if !b.LoginStatus(GetDom()+statusURL) {
 			fmt.Println("Signup and/or login into your GoShelly account to continue.")
 			return
 		}
@@ -37,7 +37,7 @@ var deleteCmd = &cobra.Command{
 			return
 		}
 
-		b.DeleteUser(confirm, URLHEAD+deleteURL)
+		b.DeleteUser(confirm, GetDom()+deleteURL)
 		os.Remove("./config/token-config.json")
 	},
 }

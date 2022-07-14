@@ -18,7 +18,7 @@ var demoCmd = &cobra.Command{
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 	
-		if !b.LoginStatus(URLHEAD+statusURL) {
+		if !b.LoginStatus(GetDom()+statusURL) {
 			fmt.Println("Signup and/or login into your GoShelly account to continue.")
 			return
 		}

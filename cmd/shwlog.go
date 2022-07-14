@@ -25,7 +25,7 @@ var shwlogCmd = &cobra.Command{
 	Short: "See logs from your GoShelly runs.",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		if !b.LoginStatus(URLHEAD+statusURL) {
+		if !b.LoginStatus(GetDom()+statusURL) {
 			fmt.Println("Signup and/or login into your GoShelly account to continue.")
 			return
 		}
@@ -50,9 +50,9 @@ func genLinks(ids string) {
 		TOKEN: tempUser.TOKEN,
 		LOGID: i,
 	}
-	resp := b.SendPOST(URLHEAD+logURL, user)
+	resp := b.SendPOST(GetDom()+logURL, user)
 	body, err := ioutil.ReadAll(resp.Body)
-	
+
 	if err != nil {
 		fmt.Println(resp.StatusCode, "Could not read response.")
 		return

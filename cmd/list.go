@@ -26,7 +26,7 @@ var listCmd = &cobra.Command{
 	Long: `Returns a list of a only the last 5 GoShelly runs on your account. No data from runs previous to the last 5 is maintained by the GoShelly server.
 	If you wish to see the data from the runs earlier to the last 5, check under the 'logs' directory.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		if !b.LoginStatus(URLHEAD+statusURL) {
+		if !b.LoginStatus(GetDom()+statusURL) {
 			fmt.Println("Signup and/or login into your GoShelly account to continue.")
 			return
 		}
@@ -35,7 +35,7 @@ var listCmd = &cobra.Command{
 }
 
 func getLogs() {
-	resp := b.SendPOST(URLHEAD+listLogURL, b.GetLoggedUser())
+	resp := b.SendPOST(GetDom()+listLogURL, b.GetLoggedUser())
 	var str t.Msg
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {

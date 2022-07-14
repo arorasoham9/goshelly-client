@@ -272,13 +272,13 @@ func readStartConfigJSON(EN bool, CONFIG t.Config) t.Config {
 	var config t.Config
 	file, err := ioutil.ReadFile("./config/client-config.json")
 	if err != nil {
-		fmt.Println("Could not read in configuration. Err: ", err)
+		fmt.Println("Could not read in user configuration. Err: ", err)
 		return CONFIG
 	}
 
 	err = json.Unmarshal([]byte(file), &CONFIG)
 	if err != nil {
-		fmt.Println("Could not read in configuration. Err: ", err)
+		fmt.Println("Could not read in user configuration. Err: ", err)
 		return CONFIG
 	}
 	return config
@@ -393,7 +393,7 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
 		buffer = nil
 		count++
 	}
-	
+
 	CONFIG.CLIENTLOG.Println("All commands ran successfully. Returning exit success.")
 	logClean("./logs/")
 	fmt.Printf("Exit Success.\nReturning Log.\n\n")
