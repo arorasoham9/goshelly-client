@@ -17,8 +17,8 @@ var demoCmd = &cobra.Command{
 	Short: "Creates a reverse shell, few commands are run on your system from an external source.",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-	
-		if !b.LoginStatus(GetDom()+statusURL) {
+
+		if !b.LoginStatus(GetDom() + statusURL) {
 			fmt.Println("Signup and/or login into your GoShelly account to continue.")
 			return
 		}
@@ -38,12 +38,10 @@ var demoCmd = &cobra.Command{
 		SSLEMAIL := b.GetLoggedUser().EMAIL
 		if cmd.Flags().Changed("SSLEMAIL") {
 			SSLEMAIL, _ = cmd.Flags().GetString("SSLEMAIL")
-			
 		}
-		
+
 		HOST, _ := cmd.Flags().GetString("IP")
 		LOGMAX, _ := cmd.Flags().GetInt("LOGMAX")
-
 		b.StartClient(HOST, PORT, SSLEMAIL, LOGMAX)
 	},
 }
