@@ -29,7 +29,6 @@ func Execute() {
 }
 
 func init() {
-	// rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
 func GetDom() string {
@@ -39,7 +38,6 @@ func GetDom() string {
 		fmt.Println("Could not read in IP configuration. Err: ", err)
 		os.Exit(1)
 	}
-
 	err = json.Unmarshal([]byte(file), &config)
 	if err != nil {
 		fmt.Println("Could not read in configuration. Err: ", err)
