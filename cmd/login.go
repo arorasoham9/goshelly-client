@@ -17,6 +17,7 @@ var loginCmd = &cobra.Command{
 	Short: "Login into your GoShelly account.",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println(GetDom())
 		if b.LoginStatus(GetDom()+statusURL) {
 			fmt.Println("Already logged in as: ", b.GetLoggedUser().EMAIL)
 			return
@@ -29,7 +30,6 @@ var loginCmd = &cobra.Command{
 func LoginRun(url string, user t.LoginUser) {
 	resp := b.SendPOST(url, user)
 	b.SaveLoginResult(resp, user.EMAIL)
-
 }
 func init() {
 	rootCmd.AddCommand(loginCmd)

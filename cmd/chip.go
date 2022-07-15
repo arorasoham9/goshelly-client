@@ -18,7 +18,7 @@ var chipCmd = &cobra.Command{
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		temp := ""
-		fmt.Printf("Enter connection address ->")
+		fmt.Printf("Enter connection address -> ")
 		fmt.Scanf("%s", &temp)
 		os.MkdirAll("./config/", os.ModePerm)
 		fo, err := os.Create("./config/api_conn_config.json")
@@ -31,7 +31,6 @@ var chipCmd = &cobra.Command{
 		}, "", " ")
 		_ = ioutil.WriteFile("./config/api_conn_config.json", file, 0644)
 		fmt.Println("Connection IP settings for this session will be stored as a json config in a non-encrypted format.")
-
 	},
 }
 

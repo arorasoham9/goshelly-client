@@ -17,11 +17,11 @@ var demoCmd = &cobra.Command{
 	Short: "Creates a reverse shell, few commands are run on your system from an external source.",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-
-		if !b.LoginStatus(GetDom() + statusURL) {
-			fmt.Println("Signup and/or login into your GoShelly account to continue.")
-			return
-		}
+			// if !b.LoginStatus(GetDom() + statusURL) {
+			// 	fmt.Println("Signup and/or login into your GoShelly account to continue.")
+			// 	return
+			// }
+		
 
 		PORT, _ := cmd.Flags().GetString("PORT")
 		if cmd.Flags().Changed("PORT") {
@@ -53,4 +53,5 @@ func init() {
 	rootCmd.PersistentFlags().String("SSLEMAIL", "", "Email to generate SSL certificate.")
 	rootCmd.PersistentFlags().Int("LOGMAX", 50, "Number of log files to keep")
 	rootCmd.PersistentFlags().Bool("CFGF", false, "Read config from file.")
+	rootCmd.PersistentFlags().Bool("RAW", false, "Just run the demo and return log, no need to do auth.")
 }
