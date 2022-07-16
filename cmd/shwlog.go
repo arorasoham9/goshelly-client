@@ -9,12 +9,12 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
+
 	"github.com/spf13/cobra"
 )
 
 const logURL = "/link/"
-const discprompt = 
-`NOTE: Each requested log is made available for a short period of time at the URL returned.
+const discprompt = `NOTE: Each requested log is made available for a short period of time at the URL returned.
 Changing parts of this link will NOT lead to other logs. This link is not transferrable, 
 only the requesting computer will be able to access the contents of the link generated.
 	`
@@ -25,7 +25,7 @@ var shwlogCmd = &cobra.Command{
 	Short: "See logs from your GoShelly runs.",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		if !b.LoginStatus(GetDom()+statusURL) {
+		if !b.LoginStatus(GetDom() + statusURL) {
 			fmt.Println("Signup and/or login into your GoShelly account to continue.")
 			return
 		}
@@ -67,10 +67,9 @@ func genLinks(ids string) {
 	if err != nil {
 		fmt.Println("Could not parse log link.")
 	}
-	
+
 	fmt.Printf("\nYou can find the requested log here: %+v\n\n", u)
 	fmt.Println(discprompt)
-	
 }
 
 func init() {
