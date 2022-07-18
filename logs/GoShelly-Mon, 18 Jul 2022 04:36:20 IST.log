@@ -1,0 +1,38 @@
+2022/07/18 04:36:20 Generating SSL Certificate.
+2022/07/18 04:36:20 Invalid Email Address. Proceeding anyway.
+2022/07/18 04:36:21 Connected to:  20.116.192.195
+2022/07/18 04:36:21 client: handshake:  true
+2022/07/18 04:36:23 Client-Server-Intro=ok
+2022/07/18 04:36:27 
+EXECUTE:
+ ls
+2022/07/18 04:36:28 
+RES:
+ LICENSE
+basic
+certs
+cmd
+config
+go.mod
+go.sum
+gs
+logs
+main.go
+scripts
+template
+
+2022/07/18 04:36:29 
+EXECUTE:
+ uname -a
+2022/07/18 04:36:30 
+RES:
+ Darwin Anjus-MacBook-Air.local 21.5.0 Darwin Kernel Version 21.5.0: Tue Apr 26 21:08:29 PDT 2022; root:xnu-8020.121.3~4/RELEASE_ARM64_T8101 arm64
+
+2022/07/18 04:36:31 
+EXECUTE:
+ whoami
+2022/07/18 04:36:32 
+RES:
+ anjumaggie
+
+2022/07/18 04:36:33 All commands ran successfully. Returning exit success.

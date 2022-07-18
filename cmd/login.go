@@ -21,7 +21,7 @@ var loginCmd = &cobra.Command{
 			fmt.Println("Already logged in as: ", b.GetLoggedUser().EMAIL)
 			return
 		}
-		_, loginUser.EMAIL, loginUser.PASSWORD = b.GetCredentials(0)
+		_, loginUser.EMAIL, loginUser.PASSWORD = b.GetCredentials(0,5)
 		LoginRun(GetDom()+loginURL,loginUser)
 	},
 }

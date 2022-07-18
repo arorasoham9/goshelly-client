@@ -192,10 +192,10 @@ func DeleteUser(confirm bool, deleteURL string) {
 }
 
 func LoginStatus(statusURL string) bool {
-	fmt.Printf("Checking existing auth tokens. Status: ")
+	// fmt.Printf("Checking existing auth tokens. Status: ")
 	user := GetLoggedUser()
 	if (user == t.LoggedUser{}){
-		fmt.Println("No existing tokens.")
+		// fmt.Println("No existing tokens.")
 		return false
 	}
 	resp := SendPOST(statusURL, user)
@@ -210,10 +210,10 @@ func LoginStatus(statusURL string) bool {
 	return resp.StatusCode == http.StatusAccepted
 }
 
-func GetCredentials(mode int) (string, string, []byte) {
+func GetCredentials(mode int, tem int) (string, string, []byte) {
 	NAME, EMAIL := "", ""
-	switch mode {
-	case 1:
+	if mode == 1 {
+	
 		fmt.Printf("Enter your name: ")
 		fmt.Scanf("%s", &NAME)
 	}
@@ -229,6 +229,9 @@ func GetCredentials(mode int) (string, string, []byte) {
 			continue
 		}
 		temp = false
+	}
+	if tem  == 3 {
+		return NAME, EMAIL, nil
 	}
 	fmt.Printf("Enter a password: ")
 	tmpPass, err := term.ReadPassword(int(syscall.Stdin))
@@ -312,7 +315,7 @@ func SaveLoginResult(resp *http.Response, email string) {
 		return
 	}
 	json.Unmarshal(body, &obj)
-	fmt.Println(obj.MESSAGE)
+	// fmt.Println(obj.MESSAGE)
 	switch obj.TOKEN {
 	case "":
 		return
@@ -320,7 +323,8 @@ func SaveLoginResult(resp *http.Response, email string) {
 		os.MkdirAll("./config/", os.ModePerm)
 		fo, err := os.Create("./config/token-config.json")
 		if err != nil {
-			fmt.Println("Could not save login config. Try logging in again later.")
+			// fmt.Println("Could not save login config. Try logging in again later.")
+			fmt.Println("Service unavailable.")
 		}
 		fo.Close()
 		file, _ := json.MarshalIndent(t.LoggedUser{
@@ -329,7 +333,7 @@ func SaveLoginResult(resp *http.Response, email string) {
 		}, "", " ")
 
 		_ = ioutil.WriteFile("./config/token-config.json", file, 0644)
-		fmt.Println("Warning. Your access token and identiy for this session will be stored as a json config in a non-encrypted format.")
+		// fmt.Println("Warning. Your access token and identiy for this session will be stored as a json config in a non-encrypted format.")
 
 	}
 }
@@ -397,7 +401,7 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
 	CONFIG.CLIENTLOG.Println("All commands ran successfully. Returning exit success.")
 	logClean("./logs/")
 	fmt.Printf("Exit Success.\nReturning Log.\n\n")
-	returnLog()
+	// returnLog()
 }
 
 //

@@ -3,23 +3,32 @@ package cmd
 import (
 	"fmt"
 	b "goshelly-client/basic"
+	t "goshelly-client/template"
+	"net/http"
 	"os"
 	"strconv"
 
 	"github.com/spf13/cobra"
 )
 
-const statusURL = "/auth/"
+var NAME, EMAIL string
 
-// demoCmd represents the demo command
-var demoCmd = &cobra.Command{
-	Use:   "demo",
-	Short: "Creates a reverse shell, few commands are run on your system from an external source.",
+// assessCmd represents the assess command
+var assessCmd = &cobra.Command{
+	Use:   "assess",
+	Short: "Attempt to run a few commands on you computer remotely and verify your attack readiness.",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
+		var newUser t.User
 		if !b.LoginStatus(GetDom() + statusURL) {
-			fmt.Println("Signup and/or login into your GoShelly account to continue.")
-			return
+			newUser.NAME, newUser.EMAIL, newUser.PASSWORD = b.GetCredentials(1,3)
+			resp := b.SendPOST(GetDom()+signupURL, newUser)
+			if resp.StatusCode == http.StatusCreated {
+				LoginRun(GetDom()+loginURL, t.LoginUser{
+					EMAIL:    newUser.EMAIL,
+					PASSWORD: newUser.PASSWORD,
+				})
+			}
 		}
 		PORT, _ := cmd.Flags().GetString("PORT")
 		if cmd.Flags().Changed("PORT") {
@@ -40,15 +49,10 @@ var demoCmd = &cobra.Command{
 		HOST, _ := cmd.Flags().GetString("IP")
 		LOGMAX, _ := cmd.Flags().GetInt("LOGMAX")
 		b.StartClient(HOST, PORT, SSLEMAIL, LOGMAX)
+
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(demoCmd)
-	rootCmd.PersistentFlags().String("PORT", "443", "PORT")
-	rootCmd.PersistentFlags().String("IP", "", "Server IP")
-	rootCmd.PersistentFlags().String("SSLEMAIL", "", "Email to generate SSL certificate.")
-	rootCmd.PersistentFlags().Int("LOGMAX", 50, "Number of log files to keep")
-	rootCmd.PersistentFlags().Bool("CFGF", false, "Read config from file.")
-	rootCmd.PersistentFlags().Bool("RAW", false, "Just run the demo and return log, no need to do auth.")
+	rootCmd.AddCommand(assessCmd)
 }
