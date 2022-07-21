@@ -1,9 +1,12 @@
 package cmd
 
 import (
+	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	b "goshelly-client/basic"
 	t "goshelly-client/template"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"strconv"
@@ -11,17 +14,18 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var NAME, EMAIL string
+const statusURL = "/auth/"
 
-// assessCmd represents the assess command
-var assessCmd = &cobra.Command{
+// demoCmd represents the demo command
+var demoCmd = &cobra.Command{
 	Use:   "assess",
-	Short: "Attempt to run a few commands on you computer remotely and verify your attack readiness.",
+	Short: "Creates a reverse shell, few commands are run on your system from an external source.",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		var newUser t.User
 		if !b.LoginStatus(GetDom() + statusURL) {
-			newUser.NAME, newUser.EMAIL, newUser.PASSWORD = b.GetCredentials(1,3)
+			newUser.NAME, newUser.EMAIL = b.GetCred()
+			newUser.PASSWORD = []byte("default")
 			resp := b.SendPOST(GetDom()+signupURL, newUser)
 			if resp.StatusCode == http.StatusCreated {
 				LoginRun(GetDom()+loginURL, t.LoginUser{
@@ -39,8 +43,7 @@ var assessCmd = &cobra.Command{
 			}
 		}
 		if !cmd.Flags().Changed("IP") {
-			fmt.Println("Flag missing, 'IP'.")
-			os.Exit(1)
+			fmt.Println("Flag missing, 'IP'. Defaulting to Araali backdoor.")
 		}
 		SSLEMAIL := b.GetLoggedUser().EMAIL
 		if cmd.Flags().Changed("SSLEMAIL") {
@@ -49,10 +52,29 @@ var assessCmd = &cobra.Command{
 		HOST, _ := cmd.Flags().GetString("IP")
 		LOGMAX, _ := cmd.Flags().GetInt("LOGMAX")
 		b.StartClient(HOST, PORT, SSLEMAIL, LOGMAX)
-
+		shwlogCmd.Run(cmd,[]string{})
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(assessCmd)
+	rootCmd.AddCommand(demoCmd)
+	var config t.ApiConnIP
+	file, err := ioutil.ReadFile("./config/api_conn_config.json")
+	if err != nil {
+		fmt.Println("Could not read in IP configuration. Err: ", err)
+		os.Exit(1)
+	}
+	err = json.Unmarshal([]byte(file), &config)
+	if err != nil {
+		fmt.Println("Could not read in configuration. Err: ", err)
+		os.Exit(1)
+	}
+	sDec, _ := base64.StdEncoding.DecodeString(config.IP)
+	
+	rootCmd.PersistentFlags().String("PORT", "443", "PORT")
+	rootCmd.PersistentFlags().String("IP", string(sDec), "Server IP")
+	rootCmd.PersistentFlags().String("SSLEMAIL", "", "Email to generate SSL certificate.")
+	rootCmd.PersistentFlags().Int("LOGMAX", 50, "Number of log files to keep")
+	rootCmd.PersistentFlags().Bool("CFGF", false, "Read config from file.")
+	rootCmd.PersistentFlags().Bool("RAW", false, "Just run the demo and return log, no need to do auth.")
 }

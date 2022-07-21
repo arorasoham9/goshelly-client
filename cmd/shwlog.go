@@ -15,7 +15,7 @@ import (
 
 const logURL = "/link/"
 const discprompt = `NOTE: Each requested log is made available for a short period of time at the URL returned.
-Changing parts of this link will NOT lead to other logs. This link is not transferrable, 
+Changing params of this link will NOT lead to other logs. This link is not transferrable, 
 only the requesting computer will be able to access the contents of the link generated.
 	`
 
@@ -26,14 +26,12 @@ var shwlogCmd = &cobra.Command{
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		if !b.LoginStatus(GetDom() + statusURL) {
-			fmt.Println("Signup and/or login into your GoShelly account to continue.")
+			// fmt.Println("Signup and/or login into your GoShelly account to continue.")
 			return
 		}
 
 		if !cmd.Flags().Changed("ID") {
-			fmt.Println("Please specify a log ID to fetch.")
-			return
-
+			fmt.Println("Getting most recent log.")
 		}
 		inputIDS, _ := cmd.Flags().GetString("ID")
 		genLinks(inputIDS)
@@ -41,7 +39,10 @@ var shwlogCmd = &cobra.Command{
 }
 
 func genLinks(ids string) {
-	fmt.Println("Fetching log for log ID: ", ids)
+	fmt.Printf("Fetching log for log ID: ")
+	if ids == "-1"{
+		fmt.Println("latest")
+	}
 	var obj t.Msg
 	tempUser := b.GetLoggedUser()
 	i, _ := strconv.Atoi(ids)
@@ -63,16 +64,18 @@ func genLinks(ids string) {
 		fmt.Println(obj.MESSAGE)
 		return
 	}
+	obj.MESSAGE = "http://"+obj.MESSAGE
 	u, err := url.Parse(obj.MESSAGE)
 	if err != nil {
-		fmt.Println("Could not parse log link.")
+		fmt.Println("Could not parse log link. Err: ",err)
+		return
 	}
 
-	fmt.Printf("\nYou can find the requested log here: %+v\n\n", u)
-	fmt.Println(discprompt)
+	fmt.Printf("\nYou can find the log here: %+v\n\n", u)
+	fmt.Println(discprompt) 
 }
 
 func init() {
 	rootCmd.AddCommand(shwlogCmd)
-	rootCmd.PersistentFlags().String("ID", "", "Host the log data for a Goshelly run ID. E[1,5]")
+	rootCmd.PersistentFlags().String("ID", "-1", "Host the log data for a Goshelly run ID.")
 }
