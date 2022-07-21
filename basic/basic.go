@@ -353,18 +353,18 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
 	CONFIG.PORT = PORT
 	CONFIG.SSLEMAIL = SSLEMAIL
 	CONFIG.MAXLOGSTORE = logmax
-	CONFIG.LOGNAME = "./logs/" + "GoShelly" + "_" + time.Now().Format(time.RFC1123) + ".log"
+	inTime := time.Now()
+	CONFIG.LOGNAME = strings.ReplaceAll("./logs/GoShelly_"+ inTime.Format("2017.09.07 17:06:06"), " ", "")
 	os.MkdirAll("./logs/", os.ModePerm)
 	clientfile, err := os.OpenFile(CONFIG.LOGNAME, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
-		fmt.Printf("Client log open error: %s. No logs for this session available. ", err)
+		fmt.Printf("Client log open error: %s. No logs for this session available.\n", err)
 		CONFIG.CLIENTLOG = log.New(os.Stdout, "", log.LstdFlags)
 	} else {
 		CONFIG.CLIENTLOG = log.New(clientfile, "", log.LstdFlags)
 		defer clientfile.Close()
 	}
 	CONFIG = readStartConfigJSON(false, CONFIG) //change false to true if you have a json config file
-	// genCert()
 
 	cert, err := tls.LoadX509KeyPair("certs/client.pem", "certs/client.key")
 	if err != nil {

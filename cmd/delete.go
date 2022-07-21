@@ -18,13 +18,13 @@ var deleteCmd = &cobra.Command{
 	Long:  `Delete's all existence of the user's account data from the GoShelly Server.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if !b.LoginStatus(GetDom()+statusURL) {
-			fmt.Println("Signup and/or login into your GoShelly account to continue.")
+			fmt.Println("No account found.")
 			return
 		}
 		var temp string
 		var confirm bool
 		fmt.Printf("NOTE: Running delete will delete all previous logs.")
-		fmt.Println("All data associated with your account will also be removed permanently.")
+		fmt.Println("All data associated with your account will be removed permanently.")
 		fmt.Printf("Are you sure you would like to delete your account? (Y/N) --> ")
 		fmt.Scanf("%s", &temp)
 		temp = strings.ToLower(temp)
