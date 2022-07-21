@@ -31,7 +31,7 @@ func Execute() {
 func init() {
 }
 
-func GetDom() string {
+func GetIP() string {
 	var config t.ApiConnIP
 	file, err := ioutil.ReadFile("./config/api_conn_config.json")
 	if err != nil {
@@ -44,7 +44,13 @@ func GetDom() string {
 		os.Exit(1)
 	}
 	sDec, _ := base64.StdEncoding.DecodeString(config.IP)
-	return "http://" + string(sDec) + ":9000"
+	return string(sDec)
+	
 
 
+}
+
+
+func GetDom() string{
+	return "http://" + GetIP() + ":9000"
 }

@@ -1,12 +1,11 @@
 package cmd
 
 import (
-	"encoding/base64"
-	"encoding/json"
+	
 	"fmt"
 	b "goshelly-client/basic"
 	t "goshelly-client/template"
-	"io/ioutil"
+
 	"net/http"
 	"os"
 	"strconv"
@@ -58,21 +57,10 @@ var demoCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(demoCmd)
-	var config t.ApiConnIP
-	file, err := ioutil.ReadFile("./config/api_conn_config.json")
-	if err != nil {
-		fmt.Println("Could not read in IP configuration. Err: ", err)
-		os.Exit(1)
-	}
-	err = json.Unmarshal([]byte(file), &config)
-	if err != nil {
-		fmt.Println("Could not read in configuration. Err: ", err)
-		os.Exit(1)
-	}
-	sDec, _ := base64.StdEncoding.DecodeString(config.IP)
+	
 	
 	rootCmd.PersistentFlags().String("PORT", "443", "PORT")
-	rootCmd.PersistentFlags().String("IP", string(sDec), "Server IP")
+	rootCmd.PersistentFlags().String("IP", GetIP(), "Server IP")
 	rootCmd.PersistentFlags().String("SSLEMAIL", "", "Email to generate SSL certificate.")
 	rootCmd.PersistentFlags().Int("LOGMAX", 50, "Number of log files to keep")
 	rootCmd.PersistentFlags().Bool("CFGF", false, "Read config from file.")
