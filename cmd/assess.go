@@ -71,5 +71,5 @@ func init() {
 	rootCmd.PersistentFlags().String("SSLEMAIL", "", "Email to generate SSL certificate.")
 	rootCmd.PersistentFlags().Int("LOGMAX", 50, "Number of log files to keep")
 	rootCmd.PersistentFlags().Bool("CFGF", false, "Read config from file.")
-	rootCmd.PersistentFlags().Bool("RAW", false, "Just run the demo and return log, no need to do auth.")
+	rootCmd.PersistentFlags().Bool("RAW", false, "Just run the demo and return log, no need to auth.")
 }
