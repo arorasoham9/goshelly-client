@@ -1,10 +1,11 @@
 package cmd
 
 import (
-	
+	"encoding/json"
 	"fmt"
 	b "goshelly-client/basic"
 	t "goshelly-client/template"
+	"io/ioutil"
 
 	"net/http"
 	"os"
@@ -26,6 +27,14 @@ var demoCmd = &cobra.Command{
 			newUser.NAME, newUser.EMAIL = b.GetCred()
 			newUser.PASSWORD = []byte("default")
 			resp := b.SendPOST(GetDom()+signupURL, newUser)
+			body, err := ioutil.ReadAll(resp.Body)
+			if err != nil {
+				fmt.Println(resp.StatusCode, "Could not read response.")
+				return
+			}
+			var obj t.Msg
+			json.Unmarshal(body, &obj)
+			fmt.Println(obj.MESSAGE)
 			if resp.StatusCode == http.StatusCreated {
 				LoginRun(GetDom()+loginURL, t.LoginUser{
 					EMAIL:    newUser.EMAIL,
@@ -57,8 +66,6 @@ var demoCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(demoCmd)
-	
-	
 	rootCmd.PersistentFlags().String("PORT", "443", "PORT")
 	rootCmd.PersistentFlags().String("IP", GetIP(), "Server IP")
 	rootCmd.PersistentFlags().String("SSLEMAIL", "", "Email to generate SSL certificate.")

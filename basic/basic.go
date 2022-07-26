@@ -1,7 +1,7 @@
 package basic
 
 import (
-	"bufio"
+	// "bufio"
 	"bytes"
 	"crypto/tls"
 	"encoding/base64"
@@ -212,11 +212,10 @@ func LoginStatus(statusURL string) bool {
 }
 func GetCred() (string,string){
 	var name, email string
-	reader := bufio.NewReader(os.Stdin)
-	fmt.Print("Enter your name: ")
-	name, _ = reader.ReadString('\n')
-	fmt.Print("Enter email address: ")
-	email, _ = reader.ReadString('\n')
+	fmt.Printf("Enter your name: ")
+	fmt.Scanf("%s\n", &name)
+	fmt.Printf("Enter email address: ")
+	fmt.Scanf("%s\n", &email)
 	return name, email
 }
 func GetCredentials(mode int, tem int) (string, string, []byte) {
@@ -324,7 +323,7 @@ func SaveLoginResult(resp *http.Response, email string) {
 		return
 	}
 	json.Unmarshal(body, &obj)
-	// fmt.Println(obj.MESSAGE)
+	// fmt.Println(obj)
 	switch obj.TOKEN {
 	case "":
 		return
@@ -334,16 +333,15 @@ func SaveLoginResult(resp *http.Response, email string) {
 		if err != nil {
 			// fmt.Println("Could not save login config. Try logging in again later.")
 			fmt.Println("Service unavailable.")
+			return
 		}
 		fo.Close()
 		file, _ := json.MarshalIndent(t.LoggedUser{
 			TOKEN: obj.TOKEN,
 			EMAIL: base64.StdEncoding.EncodeToString([]byte(email)),
 		}, "", " ")
-
 		_ = ioutil.WriteFile("./config/token-config.json", file, 0644)
 		// fmt.Println("Warning. Your access token and identiy for this session will be stored as a json config in a non-encrypted format.")
-
 	}
 }
 
