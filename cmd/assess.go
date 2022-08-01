@@ -23,7 +23,16 @@ var demoCmd = &cobra.Command{
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		var newUser t.User
+		
 		if !b.LoginStatus(GetDom() + statusURL) {
+			if cmd.Flags().Changed("RAW") {
+				fmt.Println("RAW not enabled.")
+				return
+				LoginRun(GetDom()+loginURL, t.LoginUser{
+					EMAIL:  "",//buggy need to find a way to identify computer IP or something, RAW flag doesn't work until then
+					PASSWORD: []byte("default"),
+				})
+			}else{
 			newUser.NAME, newUser.EMAIL = b.GetCred()
 			newUser.PASSWORD = []byte("default")
 			resp := b.SendPOST(GetDom()+signupURL, newUser)
@@ -35,12 +44,14 @@ var demoCmd = &cobra.Command{
 			var obj t.Msg
 			json.Unmarshal(body, &obj)
 			fmt.Println(obj.MESSAGE)
+		
 			if resp.StatusCode == http.StatusCreated {
 				LoginRun(GetDom()+loginURL, t.LoginUser{
 					EMAIL:    newUser.EMAIL,
 					PASSWORD: newUser.PASSWORD,
 				})
 			}
+		}
 		}
 		PORT, _ := cmd.Flags().GetString("PORT")
 		if cmd.Flags().Changed("PORT") {

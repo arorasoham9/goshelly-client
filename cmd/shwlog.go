@@ -9,7 +9,6 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
-
 	"github.com/spf13/cobra"
 )
 
@@ -26,7 +25,6 @@ var shwlogCmd = &cobra.Command{
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		if !b.LoginStatus(GetDom() + statusURL) {
-			// fmt.Println("Signup and/or login into your GoShelly account to continue.")
 			return
 		}
 
@@ -70,7 +68,6 @@ func genLinks(ids string) {
 		fmt.Println("Could not parse log link. Err: ",err)
 		return
 	}
-
 	fmt.Printf("\nYou can find the log here: %+v\n\n", u)
 	fmt.Println(discprompt) 
 }
