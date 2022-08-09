@@ -351,8 +351,7 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
 	CONFIG.PORT = PORT
 	CONFIG.SSLEMAIL = SSLEMAIL
 	CONFIG.MAXLOGSTORE = logmax
-	// inTime := time.Now()
-	CONFIG.LOGNAME = strings.ReplaceAll("./logs/GoShelly_lastlog", " ", "")
+	CONFIG.LOGNAME = strings.ReplaceAll("./logs/GoShelly_last.log", " ", "")
 	os.MkdirAll("./logs/", os.ModePerm)
 	clientfile, err := os.OpenFile(CONFIG.LOGNAME, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {

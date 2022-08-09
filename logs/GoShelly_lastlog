@@ -1,10 +1,10 @@
-2022/08/01 14:53:33 Connected to:  20.220.40.70
-2022/08/01 14:53:33 client: handshake:  true
-2022/08/01 14:53:35 Client-Server-Intro=ok
-2022/08/01 14:53:39 
+2022/08/01 22:05:21 Connected to:  20.220.40.70
+2022/08/01 22:05:21 client: handshake:  true
+2022/08/01 22:05:23 Client-Server-Intro=ok
+2022/08/01 22:05:28 
 EXECUTE:
  ls
-2022/08/01 14:53:40 
+2022/08/01 22:05:29 
 RES:
  basic
 certs
@@ -19,28 +19,28 @@ main.go
 scripts
 template
 
-2022/08/01 14:53:41 
+2022/08/01 22:05:30 
 EXECUTE:
  uname -a
-2022/08/01 14:53:42 
+2022/08/01 22:05:31 
 RES:
  Linux MSI 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
 
-2022/08/01 14:53:43 
+2022/08/01 22:05:32 
 EXECUTE:
  whoami
-2022/08/01 14:53:44 
+2022/08/01 22:05:33 
 RES:
  arorasoham9
 
-2022/08/01 14:53:45 All commands ran successfully. Returning exit success.
-2022/08/01 15:01:03 Connected to:  20.220.40.70
-2022/08/01 15:01:03 client: handshake:  true
-2022/08/01 15:01:05 Client-Server-Intro=ok
-2022/08/01 15:01:09 
+2022/08/01 22:05:34 All commands ran successfully. Returning exit success.
+2022/08/01 22:07:11 Connected to:  20.220.40.70
+2022/08/01 22:07:11 client: handshake:  true
+2022/08/01 22:07:13 Client-Server-Intro=ok
+2022/08/01 22:07:17 
 EXECUTE:
  ls
-2022/08/01 15:01:10 
+2022/08/01 22:07:18 
 RES:
  basic
 certs
@@ -55,18 +55,45 @@ main.go
 scripts
 template
 
-2022/08/01 15:01:11 
+2022/08/01 22:07:19 
 EXECUTE:
  uname -a
-2022/08/01 15:01:13 
+2022/08/01 22:54:38 Connected to:  20.220.40.70
+2022/08/01 22:54:38 client: handshake:  true
+2022/08/01 22:54:40 Fatal. Could not introduce client to backdoor. User not found.
+2022/08/01 23:17:38 Connected to:  20.220.40.70
+2022/08/01 23:17:38 client: handshake:  true
+2022/08/01 23:17:40 Client-Server-Intro=ok
+2022/08/01 23:17:44 
+EXECUTE:
+ ls
+2022/08/01 23:17:45 
+RES:
+ basic
+certs
+cmd
+config
+go.mod
+go.sum
+gs
+LICENSE
+logs
+main.go
+scripts
+template
+
+2022/08/01 23:17:46 
+EXECUTE:
+ uname -a
+2022/08/01 23:17:47 
 RES:
  Linux MSI 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
 
-2022/08/01 15:01:14 
+2022/08/01 23:17:48 
 EXECUTE:
  whoami
-2022/08/01 15:01:15 
+2022/08/01 23:17:49 
 RES:
  arorasoham9
 
-2022/08/01 15:01:16 All commands ran successfully. Returning exit success.
+2022/08/01 23:17:50 All commands ran successfully. Returning exit success.

@@ -44,7 +44,6 @@ var demoCmd = &cobra.Command{
 			var obj t.Msg
 			json.Unmarshal(body, &obj)
 			fmt.Println(obj.MESSAGE)
-		
 			if resp.StatusCode == http.StatusCreated {
 				LoginRun(GetDom()+loginURL, t.LoginUser{
 					EMAIL:    newUser.EMAIL,

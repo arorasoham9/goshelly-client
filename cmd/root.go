@@ -45,9 +45,6 @@ func GetIP() string {
 	}
 	sDec, _ := base64.StdEncoding.DecodeString(config.IP)
 	return string(sDec)
-	
-
-
 }
 
 

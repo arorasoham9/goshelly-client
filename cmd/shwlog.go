@@ -27,10 +27,6 @@ var shwlogCmd = &cobra.Command{
 		if !b.LoginStatus(GetDom() + statusURL) {
 			return
 		}
-
-		if !cmd.Flags().Changed("ID") {
-			fmt.Println("Getting most recent log.")
-		}
 		inputIDS, _ := cmd.Flags().GetString("ID")
 		genLinks(inputIDS)
 	},
@@ -62,6 +58,7 @@ func genLinks(ids string) {
 		fmt.Println(obj.MESSAGE)
 		return
 	}
+	
 	obj.MESSAGE = "http://"+GetIP()+obj.MESSAGE
 	u, err := url.Parse(obj.MESSAGE)
 	if err != nil {

@@ -1,0 +1,615 @@
+2022/08/01 23:47:25 Connected to:  20.220.40.70
+2022/08/01 23:47:25 client: handshake:  true
+2022/08/01 23:47:27 Fatal. Could not introduce client to backdoor. User not found.
+2022/08/01 23:58:53 Connected to:  20.220.40.70
+2022/08/01 23:58:53 client: handshake:  true
+2022/08/01 23:58:55 Client-Server-Intro=ok
+2022/08/01 23:58:59 
+EXECUTE:
+ ls
+2022/08/01 23:59:00 
+RES:
+ basic
+certs
+cmd
+config
+go.mod
+go.sum
+gs
+LICENSE
+logs
+main.go
+scripts
+template
+
+2022/08/01 23:59:01 
+EXECUTE:
+ uname -a
+2022/08/01 23:59:02 
+RES:
+ Linux MSI 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
+
+2022/08/01 23:59:03 
+EXECUTE:
+ whoami
+2022/08/01 23:59:04 
+RES:
+ arorasoham9
+
+2022/08/01 23:59:05 All commands ran successfully. Returning exit success.
+2022/08/02 00:06:40 Connected to:  20.220.40.70
+2022/08/02 00:06:40 client: handshake:  true
+2022/08/02 00:06:42 Client-Server-Intro=ok
+2022/08/02 00:06:46 
+EXECUTE:
+ ls
+2022/08/02 00:06:48 
+RES:
+ basic
+certs
+cmd
+config
+go.mod
+go.sum
+gs
+LICENSE
+logs
+main.go
+scripts
+template
+
+2022/08/02 00:06:49 
+EXECUTE:
+ uname -a
+2022/08/02 00:06:50 
+RES:
+ Linux MSI 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
+
+2022/08/02 00:06:51 
+EXECUTE:
+ whoami
+2022/08/02 00:06:52 
+RES:
+ arorasoham9
+
+2022/08/02 00:06:53 All commands ran successfully. Returning exit success.
+2022/08/02 00:28:08 Connected to:  20.220.40.70
+2022/08/02 00:28:08 client: handshake:  true
+2022/08/02 00:28:10 Client-Server-Intro=ok
+2022/08/02 00:28:14 
+EXECUTE:
+ ls
+2022/08/02 00:28:15 
+RES:
+ basic
+certs
+cmd
+config
+go.mod
+go.sum
+gs
+LICENSE
+logs
+main.go
+scripts
+template
+
+2022/08/02 00:28:16 
+EXECUTE:
+ uname -a
+2022/08/02 00:28:17 
+RES:
+ Linux MSI 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
+
+2022/08/02 00:28:18 
+EXECUTE:
+ whoami
+2022/08/02 00:28:19 
+RES:
+ arorasoham9
+
+2022/08/02 00:28:20 All commands ran successfully. Returning exit success.
+2022/08/02 00:28:35 Connected to:  20.220.40.70
+2022/08/02 00:28:35 client: handshake:  true
+2022/08/02 00:28:37 Client-Server-Intro=ok
+2022/08/02 00:28:41 
+EXECUTE:
+ ls
+2022/08/02 00:28:42 
+RES:
+ basic
+certs
+cmd
+config
+go.mod
+go.sum
+gs
+LICENSE
+logs
+main.go
+scripts
+template
+
+2022/08/02 00:28:43 
+EXECUTE:
+ uname -a
+2022/08/02 00:28:44 
+RES:
+ Linux MSI 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
+
+2022/08/02 00:28:45 
+EXECUTE:
+ whoami
+2022/08/02 00:28:46 
+RES:
+ arorasoham9
+
+2022/08/02 00:28:47 All commands ran successfully. Returning exit success.
+2022/08/02 00:29:29 Connected to:  20.220.40.70
+2022/08/02 00:29:29 client: handshake:  true
+2022/08/02 00:29:31 Client-Server-Intro=ok
+2022/08/02 00:29:35 
+EXECUTE:
+ ls
+2022/08/02 00:29:36 
+RES:
+ basic
+certs
+cmd
+config
+go.mod
+go.sum
+gs
+LICENSE
+logs
+main.go
+scripts
+template
+
+2022/08/02 00:29:37 
+EXECUTE:
+ uname -a
+2022/08/02 00:29:39 
+RES:
+ Linux MSI 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
+
+2022/08/02 00:29:40 
+EXECUTE:
+ whoami
+2022/08/02 00:29:41 
+RES:
+ arorasoham9
+
+2022/08/02 00:29:42 All commands ran successfully. Returning exit success.
+2022/08/02 14:35:55 Connected to:  20.220.40.70
+2022/08/02 14:35:55 client: handshake:  true
+2022/08/02 14:35:57 Client-Server-Intro=ok
+2022/08/02 14:36:01 
+EXECUTE:
+ ls
+2022/08/02 14:36:02 
+RES:
+ basic
+certs
+cmd
+config
+go.mod
+go.sum
+gs
+LICENSE
+logs
+main.go
+scripts
+template
+
+2022/08/02 14:36:03 
+EXECUTE:
+ uname -a
+2022/08/02 14:36:04 
+RES:
+ Linux MSI 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
+
+2022/08/02 14:36:05 
+EXECUTE:
+ whoami
+2022/08/02 14:36:06 
+RES:
+ arorasoham9
+
+2022/08/02 14:36:07 All commands ran successfully. Returning exit success.
+2022/08/02 14:36:40 Connected to:  20.220.40.70
+2022/08/02 14:36:40 client: handshake:  true
+2022/08/02 14:36:42 Client-Server-Intro=ok
+2022/08/02 14:36:46 
+EXECUTE:
+ ls
+2022/08/02 14:36:48 
+RES:
+ basic
+certs
+cmd
+config
+go.mod
+go.sum
+gs
+LICENSE
+logs
+main.go
+scripts
+template
+
+2022/08/02 14:36:49 
+EXECUTE:
+ uname -a
+2022/08/02 14:36:50 
+RES:
+ Linux MSI 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
+
+2022/08/02 14:36:51 
+EXECUTE:
+ whoami
+2022/08/02 14:36:52 
+RES:
+ arorasoham9
+
+2022/08/02 14:36:53 All commands ran successfully. Returning exit success.
+2022/08/02 14:38:00 Connected to:  20.220.40.70
+2022/08/02 14:38:00 client: handshake:  true
+2022/08/02 14:38:02 Client-Server-Intro=ok
+2022/08/02 14:38:06 
+EXECUTE:
+ ls
+2022/08/02 14:38:07 
+RES:
+ basic
+certs
+cmd
+config
+go.mod
+go.sum
+gs
+LICENSE
+logs
+main.go
+scripts
+template
+
+2022/08/02 14:38:08 
+EXECUTE:
+ uname -a
+2022/08/02 14:38:09 
+RES:
+ Linux MSI 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
+
+2022/08/02 14:38:10 
+EXECUTE:
+ whoami
+2022/08/02 14:38:12 
+RES:
+ arorasoham9
+
+2022/08/02 14:38:13 All commands ran successfully. Returning exit success.
+2022/08/02 14:41:15 Connected to:  20.220.40.70
+2022/08/02 14:41:15 client: handshake:  true
+2022/08/02 14:41:17 Client-Server-Intro=ok
+2022/08/02 14:41:21 
+EXECUTE:
+ ls
+2022/08/02 14:41:22 
+RES:
+ basic
+certs
+cmd
+config
+go.mod
+go.sum
+gs
+LICENSE
+logs
+main.go
+scripts
+template
+
+2022/08/02 14:41:23 
+EXECUTE:
+ uname -a
+2022/08/02 14:41:24 
+RES:
+ Linux MSI 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
+
+2022/08/02 14:41:25 
+EXECUTE:
+ whoami
+2022/08/02 14:41:27 
+RES:
+ arorasoham9
+
+2022/08/02 14:41:28 All commands ran successfully. Returning exit success.
+2022/08/02 14:41:36 Connected to:  20.220.40.70
+2022/08/02 14:41:36 client: handshake:  true
+2022/08/02 14:41:38 Client-Server-Intro=ok
+2022/08/02 14:41:42 
+EXECUTE:
+ ls
+2022/08/02 14:41:43 
+RES:
+ basic
+certs
+cmd
+config
+go.mod
+go.sum
+gs
+LICENSE
+logs
+main.go
+scripts
+template
+
+2022/08/02 14:41:44 
+EXECUTE:
+ uname -a
+2022/08/02 14:41:45 
+RES:
+ Linux MSI 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
+
+2022/08/02 14:41:46 
+EXECUTE:
+ whoami
+2022/08/02 14:41:47 
+RES:
+ arorasoham9
+
+2022/08/02 14:41:48 All commands ran successfully. Returning exit success.
+2022/08/02 14:41:54 Connected to:  20.220.40.70
+2022/08/02 14:41:54 client: handshake:  true
+2022/08/02 14:41:56 Client-Server-Intro=ok
+2022/08/02 14:42:00 
+EXECUTE:
+ ls
+2022/08/02 14:42:02 
+RES:
+ basic
+certs
+cmd
+config
+go.mod
+go.sum
+gs
+LICENSE
+logs
+main.go
+scripts
+template
+
+2022/08/02 14:42:03 
+EXECUTE:
+ uname -a
+2022/08/02 14:42:04 
+RES:
+ Linux MSI 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
+
+2022/08/02 14:42:05 
+EXECUTE:
+ whoami
+2022/08/02 14:42:06 
+RES:
+ arorasoham9
+
+2022/08/02 14:42:07 All commands ran successfully. Returning exit success.
+2022/08/02 14:43:50 Connected to:  20.220.40.70
+2022/08/02 14:43:50 client: handshake:  true
+2022/08/02 14:43:52 Client-Server-Intro=ok
+2022/08/02 14:43:56 
+EXECUTE:
+ ls
+2022/08/02 14:43:57 
+RES:
+ basic
+certs
+cmd
+config
+go.mod
+go.sum
+gs
+LICENSE
+logs
+main.go
+scripts
+template
+
+2022/08/02 14:43:58 
+EXECUTE:
+ uname -a
+2022/08/02 14:43:59 
+RES:
+ Linux MSI 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
+
+2022/08/02 14:44:00 
+EXECUTE:
+ whoami
+2022/08/02 14:44:01 
+RES:
+ arorasoham9
+
+2022/08/02 14:44:02 All commands ran successfully. Returning exit success.
+2022/08/02 14:44:20 Connected to:  20.220.40.70
+2022/08/02 14:44:20 client: handshake:  true
+2022/08/02 14:44:22 Client-Server-Intro=ok
+2022/08/02 14:44:26 
+EXECUTE:
+ ls
+2022/08/02 14:44:28 
+RES:
+ basic
+certs
+cmd
+config
+go.mod
+go.sum
+gs
+LICENSE
+logs
+main.go
+scripts
+template
+
+2022/08/02 14:44:29 
+EXECUTE:
+ uname -a
+2022/08/02 14:44:30 
+RES:
+ Linux MSI 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
+
+2022/08/02 14:44:31 
+EXECUTE:
+ whoami
+2022/08/02 14:44:32 
+RES:
+ arorasoham9
+
+2022/08/02 14:44:33 All commands ran successfully. Returning exit success.
+2022/08/02 16:17:40 Connected to:  20.220.40.70
+2022/08/02 16:17:40 client: handshake:  true
+2022/08/02 16:17:42 Client-Server-Intro=ok
+2022/08/02 16:17:46 
+EXECUTE:
+ ls
+2022/08/02 16:17:47 
+RES:
+ basic
+certs
+cmd
+config
+go.mod
+go.sum
+gs
+LICENSE
+logs
+main.go
+scripts
+template
+
+2022/08/02 16:17:49 
+EXECUTE:
+ uname -a
+2022/08/02 16:17:50 
+RES:
+ Linux MSI 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
+
+2022/08/02 16:17:51 
+EXECUTE:
+ whoami
+2022/08/02 16:17:52 
+RES:
+ arorasoham9
+
+2022/08/02 16:17:53 All commands ran successfully. Returning exit success.
+2022/08/02 17:05:54 Connected to:  20.220.40.70
+2022/08/02 17:05:54 client: handshake:  true
+2022/08/02 17:05:56 Client-Server-Intro=ok
+2022/08/02 17:06:00 
+EXECUTE:
+ ls
+2022/08/02 17:06:01 
+RES:
+ basic
+certs
+cmd
+config
+go.mod
+go.sum
+gs
+LICENSE
+logs
+main.go
+scripts
+template
+
+2022/08/02 17:06:02 
+EXECUTE:
+ uname -a
+2022/08/02 17:06:03 
+RES:
+ Linux MSI 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
+
+2022/08/02 17:06:04 
+EXECUTE:
+ whoami
+2022/08/02 17:06:05 
+RES:
+ arorasoham9
+
+2022/08/02 17:06:06 All commands ran successfully. Returning exit success.
+2022/08/03 12:31:10 Connected to:  20.220.40.70
+2022/08/03 12:31:10 client: handshake:  true
+2022/08/03 12:31:12 Client-Server-Intro=ok
+2022/08/03 12:31:16 
+EXECUTE:
+ ls
+2022/08/03 12:31:17 
+RES:
+ basic
+certs
+cmd
+config
+go.mod
+go.sum
+gs
+LICENSE
+logs
+main.go
+scripts
+template
+
+2022/08/03 12:31:18 
+EXECUTE:
+ uname -a
+2022/08/03 12:31:19 
+RES:
+ Linux MSI 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
+
+2022/08/03 12:31:20 
+EXECUTE:
+ whoami
+2022/08/03 12:31:21 
+RES:
+ arorasoham9
+
+2022/08/03 12:31:23 All commands ran successfully. Returning exit success.
+2022/08/08 23:29:51 Connected to:  20.220.40.70
+2022/08/08 23:29:51 client: handshake:  true
+2022/08/08 23:29:53 Client-Server-Intro=ok
+2022/08/08 23:29:57 
+EXECUTE:
+ ls
+2022/08/08 23:29:58 
+RES:
+ basic
+certs
+cmd
+config
+go.mod
+go.sum
+gs
+LICENSE
+logs
+main.go
+scripts
+template
+
+2022/08/08 23:29:59 
+EXECUTE:
+ uname -a
+2022/08/08 23:30:00 
+RES:
+ Linux MSI 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
+
+2022/08/08 23:30:01 
+EXECUTE:
+ whoami
+2022/08/08 23:30:02 
+RES:
+ arorasoham9
+
+2022/08/08 23:30:03 All commands ran successfully. Returning exit success.

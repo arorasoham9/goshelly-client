@@ -7,7 +7,6 @@ import (
 	t "goshelly-client/template"
 	"io/ioutil"
 	"os"
-
 	"github.com/spf13/cobra"
 )
 
