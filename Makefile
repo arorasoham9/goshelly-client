@@ -1,4 +1,4 @@
-BINARY_NAME=hello-world
+BINARY_NAME=goshelly
 
 build:
  GOARCH=amd64 GOOS=darwin go build -o ${BINARY_NAME}-darwin main.go
