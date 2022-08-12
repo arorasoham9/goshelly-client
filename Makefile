@@ -1,8 +1,9 @@
-BINARY_NAME=goshelly
-build :
-	GOARCH=amd64 GOOS=darwin go build -o hello-world-darwin main.go
-	GOARCH=amd64 GOOS=linux go build -o hello-world-linux main.go
-	GOARCH=amd64 GOOS=window go build -o hello-world-windows main.go
+BINARY_NAME=hello-world
+
+build:
+ GOARCH=amd64 GOOS=darwin go build -o ${BINARY_NAME}-darwin main.go
+ GOARCH=amd64 GOOS=linux go build -o ${BINARY_NAME}-linux main.go
+ GOARCH=amd64 GOOS=window go build -o ${BINARY_NAME}-windows main.go
 
 run:
  ./${BINARY_NAME}
