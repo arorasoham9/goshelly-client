@@ -613,3 +613,158 @@ RES:
  arorasoham9
 
 2022/08/08 23:30:03 All commands ran successfully. Returning exit success.
+2022/08/11 14:59:40 Connected to:  20.151.188.177
+2022/08/11 14:59:40 client: handshake:  true
+2022/08/11 14:59:42 Client-Server-Intro=ok
+2022/08/11 14:59:46 
+EXECUTE:
+ ls
+2022/08/11 14:59:48 
+RES:
+ basic
+certs
+cmd
+config
+go.mod
+go.sum
+gs
+LICENSE
+logs
+main.go
+scripts
+template
+
+2022/08/11 14:59:49 
+EXECUTE:
+ uname -a
+2022/08/11 14:59:50 
+RES:
+ Linux MSI 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
+
+2022/08/11 14:59:51 
+EXECUTE:
+ whoami
+2022/08/11 14:59:52 
+RES:
+ arorasoham9
+
+2022/08/11 14:59:53 All commands ran successfully. Returning exit success.
+2022/08/12 05:41:37 Connected to:  20.200.68.90
+2022/08/12 05:41:37 client: handshake:  true
+2022/08/12 05:41:39 Client-Server-Intro=ok
+2022/08/12 05:41:43 
+EXECUTE:
+ ls
+2022/08/12 05:41:44 
+RES:
+ basic
+certs
+cmd
+config
+go.mod
+go.sum
+gs
+LICENSE
+logs
+main.go
+scripts
+template
+
+2022/08/12 05:41:45 
+EXECUTE:
+ uname -a
+2022/08/12 05:41:47 
+RES:
+ Linux MSI 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
+
+2022/08/12 05:41:48 
+EXECUTE:
+ whoami
+2022/08/12 05:41:49 
+RES:
+ arorasoham9
+
+2022/08/12 05:41:50 All commands ran successfully. Returning exit success.
+2022/08/12 15:33:04 Connected to:  20.151.185.29
+2022/08/12 15:33:04 client: handshake:  true
+2022/08/12 15:33:06 Client-Server-Intro=ok
+2022/08/12 15:33:10 
+EXECUTE:
+ ls
+2022/08/12 15:33:11 
+RES:
+ basic
+certs
+cmd
+config
+go.mod
+go.sum
+gs
+LICENSE
+logs
+main.go
+scripts
+template
+
+2022/08/12 15:33:12 
+EXECUTE:
+ uname -a
+2022/08/12 15:33:13 
+RES:
+ Linux MSI 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
+
+2022/08/12 15:33:14 
+EXECUTE:
+ whoami
+2022/08/12 15:33:16 
+RES:
+ arorasoham9
+
+2022/08/12 15:33:17 All commands ran successfully. Returning exit success.
+2022/08/12 15:50:14 Error:  dial tcp: lookup backdoor.aws.araalinetworks.com/53/: no such host
+2022/08/12 15:50:14 Could not establish connection. Retrying in 5 seconds....
+2022/08/12 15:50:19 Error:  dial tcp: lookup backdoor.aws.araalinetworks.com/53/: no such host
+2022/08/12 15:50:19 Could not establish connection. Retrying in 5 seconds....
+2022/08/12 15:50:24 Error:  dial tcp: lookup backdoor.aws.araalinetworks.com/53/: no such host
+2022/08/12 15:50:24 Could not establish connection. Retrying in 5 seconds....
+2022/08/12 15:50:29 Error:  dial tcp: lookup backdoor.aws.araalinetworks.com/53/: no such host
+2022/08/12 15:50:29 Could not establish connection. Retrying in 5 seconds....
+2022/08/12 15:50:34 Error:  dial tcp: lookup backdoor.aws.araalinetworks.com/53/: no such host
+2022/08/12 15:50:34 Could not establish connection. Retrying in 5 seconds....
+2022/08/12 15:50:39 Timout. Could not reach server. Exiting....
+2022/08/12 15:55:55 Connected to:  20.151.185.29
+2022/08/12 15:55:55 client: handshake:  true
+2022/08/12 15:55:57 Client-Server-Intro=ok
+2022/08/12 15:56:01 
+EXECUTE:
+ ls
+2022/08/12 15:56:02 
+RES:
+ basic
+certs
+cmd
+config
+go.mod
+go.sum
+gs
+LICENSE
+logs
+main.go
+scripts
+template
+
+2022/08/12 15:56:03 
+EXECUTE:
+ uname -a
+2022/08/12 15:56:04 
+RES:
+ Linux MSI 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
+
+2022/08/12 15:56:05 
+EXECUTE:
+ whoami
+2022/08/12 15:56:07 
+RES:
+ arorasoham9
+
+2022/08/12 15:56:08 All commands ran successfully. Returning exit success.

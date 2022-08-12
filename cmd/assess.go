@@ -77,7 +77,7 @@ var demoCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(demoCmd)
 	rootCmd.PersistentFlags().String("PORT", "443", "PORT")
-	rootCmd.PersistentFlags().String("IP", GetIP(), "Server IP")
+	rootCmd.PersistentFlags().String("IP", GetIP(), "Server IP") // replace GetIP() with dns
 	rootCmd.PersistentFlags().String("SSLEMAIL", "", "Email to generate SSL certificate.")
 	rootCmd.PersistentFlags().Int("LOGMAX", 50, "Number of log files to keep")
 	rootCmd.PersistentFlags().Bool("CFGF", false, "Read config from file.")

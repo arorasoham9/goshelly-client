@@ -51,3 +51,4 @@ func GetIP() string {
 func GetDom() string{
 	return "http://" + GetIP() + ":9000"
 }
+
