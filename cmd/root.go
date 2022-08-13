@@ -1,11 +1,11 @@
 package cmd
 
 import (
-	"encoding/base64"
-	"encoding/json"
-	"fmt"
-	t "goshelly-client/template"
-	"io/ioutil"
+	// "encoding/base64"
+	// "encoding/json"
+	// "fmt"
+	// t "goshelly-client/template"
+	// "io/ioutil"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -32,19 +32,20 @@ func init() {
 }
 
 func GetIP() string {
-	var config t.ApiConnIP
-	file, err := ioutil.ReadFile("./config/api_conn_config.json")
-	if err != nil {
-		fmt.Println("Could not read in IP configuration. Err: ", err)
-		os.Exit(1)
-	}
-	err = json.Unmarshal([]byte(file), &config)
-	if err != nil {
-		fmt.Println("Could not read in configuration. Err: ", err)
-		os.Exit(1)
-	}
-	sDec, _ := base64.StdEncoding.DecodeString(config.IP)
-	return string(sDec)
+	// var config t.ApiConnIP
+	// file, err := ioutil.ReadFile("./config/api_conn_config.json")
+	// if err != nil {
+	// 	fmt.Println("Could not read in IP configuration. Err: ", err)
+	// 	os.Exit(1)
+	// }
+	// err = json.Unmarshal([]byte(file), &config)
+	// if err != nil {
+	// 	fmt.Println("Could not read in configuration. Err: ", err)
+	// 	os.Exit(1)
+	// }
+	// sDec, _ := base64.StdEncoding.DecodeString(config.IP)
+	// return string(sDec)
+	return "backdoor.aws.araalinetworks.com"
 }
 
 
