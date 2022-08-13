@@ -29,7 +29,6 @@ var signupCmd = &cobra.Command{
 			PASSWORD: newUser.PASSWORD,
 		})
 	}
-
 	},
 }
 

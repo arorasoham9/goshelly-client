@@ -16,6 +16,8 @@ var chipCmd = &cobra.Command{
 	Short: "Change api server connection IP",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("Deprecated.")
+		return
 		temp := ""
 		fmt.Printf("Enter connection address -> ")
 		fmt.Scanf("%s", &temp)

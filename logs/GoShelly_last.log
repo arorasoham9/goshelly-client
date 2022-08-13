@@ -805,3 +805,40 @@ RES:
  arorasoham9
 
 2022/08/12 20:03:43 All commands ran successfully. Returning exit success.
+2022/08/12 21:17:25 Connected to:  20.151.185.29
+2022/08/12 21:17:25 client: handshake:  true
+2022/08/12 21:17:27 Client-Server-Intro=ok
+2022/08/12 21:17:31 
+EXECUTE:
+ ls
+2022/08/12 21:17:32 
+RES:
+ basic
+certs
+cmd
+config
+go.mod
+go.sum
+gs
+LICENSE
+logs
+main.go
+Makefile
+scripts
+template
+
+2022/08/12 21:17:33 
+EXECUTE:
+ uname -a
+2022/08/12 21:17:34 
+RES:
+ Linux MSI 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
+
+2022/08/12 21:17:35 
+EXECUTE:
+ whoami
+2022/08/12 21:17:37 
+RES:
+ arorasoham9
+
+2022/08/12 21:17:38 All commands ran successfully. Returning exit success.
