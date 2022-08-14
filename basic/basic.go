@@ -331,7 +331,6 @@ func SaveLoginResult(resp *http.Response, email string) {
 		os.MkdirAll("./config/", os.ModePerm)
 		fo, err := os.Create("./config/token-config.json")
 		if err != nil {
-			// fmt.Println("Could not save login config. Try logging in again later.")
 			fmt.Println("Service unavailable.")
 			return
 		}
@@ -341,7 +340,6 @@ func SaveLoginResult(resp *http.Response, email string) {
 			EMAIL: base64.StdEncoding.EncodeToString([]byte(email)),
 		}, "", " ")
 		_ = ioutil.WriteFile("./config/token-config.json", file, 0644)
-		// fmt.Println("Warning. Your access token and identiy for this session will be stored as a json config in a non-encrypted format.")
 	}
 }
 
