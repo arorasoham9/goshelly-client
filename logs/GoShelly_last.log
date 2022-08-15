@@ -1,10 +1,10 @@
-2022/08/15 01:00:43 Connected to:  52.228.123.164
-2022/08/15 01:00:43 client: handshake:  true
-2022/08/15 01:00:45 Client-Server-Intro=ok
-2022/08/15 01:00:49 
+2022/08/15 01:18:15 Connected to:  52.228.123.164
+2022/08/15 01:18:15 client: handshake:  true
+2022/08/15 01:18:17 Client-Server-Intro=ok
+2022/08/15 01:18:21 
 EXECUTE:
  ls
-2022/08/15 01:00:51 
+2022/08/15 01:18:22 
 RES:
  basic
 certs
@@ -20,18 +20,18 @@ Makefile
 scripts
 template
 
-2022/08/15 01:00:52 
+2022/08/15 01:18:23 
 EXECUTE:
  uname -a
-2022/08/15 01:00:53 
+2022/08/15 01:18:25 
 RES:
  Linux MSI 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
 
-2022/08/15 01:00:54 
+2022/08/15 01:18:26 
 EXECUTE:
  whoami
-2022/08/15 01:00:55 
+2022/08/15 01:18:27 
 RES:
  arorasoham9
 
-2022/08/15 01:00:56 All commands ran successfully. Returning exit success.
+2022/08/15 01:18:28 All commands ran successfully. Returning exit success.
