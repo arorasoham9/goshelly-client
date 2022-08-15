@@ -7,6 +7,8 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+
+	// c "goshelly-client/cmd"
 	t "goshelly-client/template"
 	"io"
 	"io/ioutil"
@@ -23,7 +25,15 @@ import (
 
 	"golang.org/x/term"
 )
+var HTTPSCLIENT *http.Client
 
+func InitRest(){
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+		
+	HTTPSCLIENT = &http.Client{Transport: tr}
+}
 func handleError(err error) {
 	if err != nil {
 		log.Fatal(err)
@@ -268,7 +278,7 @@ var CONFIG t.Config
 
 func SendPOST(POSTURL string, user interface{}) *http.Response {
 	body, _ := json.Marshal(user)
-	resp, err := http.Post(POSTURL, "application/json", bytes.NewBuffer(body))
+	resp, err := HTTPSCLIENT.Post(POSTURL, "application/json", bytes.NewBuffer(body))
 	if err != nil {
 		fmt.Println("Service offline.")
 		os.Exit(0)

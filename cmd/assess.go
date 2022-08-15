@@ -19,11 +19,11 @@ const statusURL = "/auth/"
 // demoCmd represents the demo command
 var demoCmd = &cobra.Command{
 	Use:   "assess",
-	Short: "Creates a reverse shell, few commands are run on your system from an external source.",
+	Short: "Creates a reverse shell and runs few CLI commands on your system from an external source.",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		var newUser t.User
-		
+		b.InitRest()
 		if !b.LoginStatus(GetDom() + statusURL) {
 			if cmd.Flags().Changed("RAW") {
 				fmt.Println("RAW not enabled.")
@@ -49,6 +49,8 @@ var demoCmd = &cobra.Command{
 					EMAIL:    newUser.EMAIL,
 					PASSWORD: newUser.PASSWORD,
 				})
+			}else {
+				return
 			}
 		}
 		}
