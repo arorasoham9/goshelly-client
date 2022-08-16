@@ -30,6 +30,7 @@ var HTTPSCLIENT *http.Client
 func InitRest(){
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		
 	}
 		
 	HTTPSCLIENT = &http.Client{Transport: tr}

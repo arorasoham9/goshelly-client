@@ -1,10 +1,10 @@
-2022/08/15 17:15:25 Connected to:  20.104.34.174
-2022/08/15 17:15:25 client: handshake:  true
-2022/08/15 17:15:27 Client-Server-Intro=ok
-2022/08/15 17:15:31 
+2022/08/15 21:26:24 Connected to:  20.116.148.136
+2022/08/15 21:26:24 client: handshake:  true
+2022/08/15 21:26:26 Client-Server-Intro=ok
+2022/08/15 21:26:30 
 EXECUTE:
  ls
-2022/08/15 17:15:32 
+2022/08/15 21:26:31 
 RES:
  basic
 certs
@@ -20,22 +20,22 @@ Makefile
 scripts
 template
 
-2022/08/15 17:15:33 
+2022/08/15 21:26:32 
 EXECUTE:
  uname -a
-2022/08/15 17:15:34 
+2022/08/15 21:26:33 
 RES:
  Linux MSI 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
 
-2022/08/15 17:15:35 
+2022/08/15 21:26:34 
 EXECUTE:
  whoami
-2022/08/15 17:15:37 
+2022/08/15 21:26:36 
 RES:
  arorasoham9
 
-2022/08/15 17:15:38 All commands ran successfully. Returning exit success.
-2022/08/15 15:32:22 Could not establish connection. Retrying in 5 seconds....
+2022/08/15 21:26:37 All commands ran successfully. Returning exit success.
+022/08/15 15:32:22 Could not establish connection. Retrying in 5 seconds....
 2022/08/15 15:34:22 Error:  read tcp 172.20.20.20:60861->20.151.187.102:443: wsarecv: An existing connection was forcibly closed by the remote host.
 2022/08/15 15:34:22 Could not establish connection. Retrying in 5 seconds....
 2022/08/15 15:36:22 Error:  read tcp 172.20.20.20:60878->20.151.187.102:443: wsarecv: An existing connection was forcibly closed by the remote host.
