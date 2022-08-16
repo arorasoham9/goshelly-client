@@ -24,12 +24,11 @@ func Execute() {
 }
 
 func init() {
-	
 }
 
 func GetIP() string {
 	// return "backdoor.aws.araalinetworks.com"
-	return "52.228.123.164"
+	return "20.104.34.174"
 }
 
 
