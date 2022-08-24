@@ -1,14 +1,6 @@
-2022/08/15 21:26:24 Connected to:  20.116.148.136
-2022/08/15 21:26:24 client: handshake:  true
-2022/08/15 21:26:26 Client-Server-Intro=ok
-2022/08/15 21:26:30 
-EXECUTE:
- ls
-2022/08/15 21:26:31 
-RES:
- basic
-certs
-cmd
+2022/08/24 14:54:52 Connected to:  20.104.5.240
+2022/08/24 14:54:52 client: handshake:  true
+2022/08/24 14:55:04 Read Error. Could not introduce client to backdoor. Internal error or server disconnected. Exiting...
 config
 go.mod
 go.sum
