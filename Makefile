@@ -1,6 +1,8 @@
 BINARY_NAME=goshelly
-mkdir bin
+
 build:
+	rm -rf bin/
+	mkdir bin
 	GOOS=darwin go build -o ${BINARY_NAME}-darwin main.go
 	GOOS=linux go build -o /${BINARY_NAME}-linux main.go
 
