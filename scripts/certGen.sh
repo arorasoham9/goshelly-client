@@ -14,4 +14,3 @@ openssl req -new -nodes -x509 -out certs/client.pem -keyout certs/client.key -da
 # echo "make cert for CA"
 # openssl genrsa -out backdoor.aws.araalinetworks.com.key 2048
 # openssl req -new -key backdoor.aws.araalinetworks.com.key -out backdoor.aws.araalinetworks.com.csr
-# openssl x509 -req -in backdoor.aws.araalinetworks.com.csr -CA certs/rootCA.crt -CAkey certs/rootCA.key -CAcreateserial -days 365 -out backdoor.aws.araalinetworks.com.crt
