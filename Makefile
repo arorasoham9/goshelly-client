@@ -10,7 +10,8 @@ run:
 	./bin/${BINARY_NAME}-linux
 
 build_and_run: 
-	build run
+	make build 
+	make run
 
 clean:
 	go clean
