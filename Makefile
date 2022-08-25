@@ -7,11 +7,11 @@ build:
 	GOOS=linux go build -o bin/${BINARY_NAME}-linux main.go
 
 run:
-	./bin/${BINARY_NAME}-linux
+	./bin/${BINARY_NAME}-linux assess
 
 build_and_run: 
 	make build 
-	make run
+	make run 
 
 clean:
 	go clean
