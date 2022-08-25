@@ -1,8 +1,10 @@
 BINARY_NAME=goshelly
 
 build:
-	GOOS=darwin go build -o ${BINARY_NAME}-darwin main.go
-	GOOS=linux go build -o ${BINARY_NAME}-linux main.go
+	rm -rf bin/
+	mkdir bin/
+	GOOS=darwin go build -o bin/${BINARY_NAME}-darwin main.go
+	GOOS=linux go build -o bin/${BINARY_NAME}-linux main.go
 
 run:
 	./${BINARY_NAME}-linux
