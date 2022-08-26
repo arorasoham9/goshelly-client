@@ -30,6 +30,7 @@ func LoginRun(url string, user t.LoginUser) {
 	resp := b.SendPOST(url, user)
 	b.SaveLoginResult(resp, user.EMAIL)
 }
+
 func init() {
 	rootCmd.AddCommand(loginCmd)
 }

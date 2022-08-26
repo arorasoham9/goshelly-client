@@ -1,11 +1,6 @@
 package cmd
 
 import (
-	// "encoding/base64"
-	// "encoding/json"
-	// "fmt"
-	// t "goshelly-client/template"
-	// "io/ioutil"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -37,6 +32,6 @@ func GetIP() string {
 
 
 func GetDom() string{
-	return "http://" + GetIP() + ":9000"
+	return "https://" + GetIP() + ":9000"
 }
 

