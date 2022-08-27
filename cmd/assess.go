@@ -15,7 +15,7 @@ import (
 )
 
 const statusURL = "/auth/"
-
+var COMPLETION_STATUS bool
 // demoCmd represents the demo command
 var demoCmd = &cobra.Command{
 	Use:   "assess",
@@ -71,7 +71,11 @@ var demoCmd = &cobra.Command{
 		}
 		HOST, _ := cmd.Flags().GetString("IP")
 		LOGMAX, _ := cmd.Flags().GetInt("LOGMAX")
-		b.StartClient(HOST, PORT, SSLEMAIL, LOGMAX)
+		COMPLETION_STATUS = b.StartClient(HOST, PORT, SSLEMAIL, LOGMAX)
+		if !COMPLETION_STATUS{
+			
+			return 
+		}
 		shwlogCmd.Run(cmd,[]string{})
 	},
 }
