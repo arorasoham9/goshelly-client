@@ -21,14 +21,19 @@ var loginCmd = &cobra.Command{
 			fmt.Println("Already logged in as: ", b.GetLoggedUser().EMAIL)
 			return
 		}
-		_, loginUser.EMAIL, loginUser.PASSWORD = b.GetCredentials(0,5)
-		LoginRun(GetDom()+loginURL,loginUser)
+		 loginUser.EMAIL, loginUser.PASSWORD = b.GetCredentials(0,5)
+		obj := LoginRun(GetDom()+loginURL,loginUser)
+		fmt.Println(obj.MESSAGE)
 	},
 }
 
-func LoginRun(url string, user t.LoginUser) {
+func LoginRun(url string, user t.LoginUser) t.LogSuccess {
 	resp := b.SendPOST(url, user)
-	b.SaveLoginResult(resp, user.EMAIL)
+	check, obj := b.SaveLoginResult(resp, user.EMAIL)
+	if !check{
+		fmt.Println("Unable to run GoShelly. User created, token not stored.")
+	}
+	return obj
 }
 
 func init() {

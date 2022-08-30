@@ -15,7 +15,8 @@ import (
 )
 
 const statusURL = "/auth/"
-var COMPLETION_STATUS bool
+var COMPLETION_STATUS, RAW bool
+var SSLEMAIL,HOST, PORT string
 // demoCmd represents the demo command
 var demoCmd = &cobra.Command{
 	Use:   "assess",
@@ -23,17 +24,19 @@ var demoCmd = &cobra.Command{
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		var newUser t.User
-		b.InitRest()
-		if !b.LoginStatus(GetDom() + statusURL) {
-			if cmd.Flags().Changed("RAW") {
-				fmt.Println("RAW not enabled.")
+		if cmd.Flags().Changed("IP") {
+			RAW = true
+			SSLEMAIL,_ = cmd.Flags().GetString("SSLEMAIL")
+		}else{
+			RAW = false
+			fmt.Println("Flag missing, 'IP'. Defaulting to Araali backdoor.")
+			if cmd.Flags().Changed("PORT"){
+				fmt.Println("PORT cannot be changed if IP is NOT changed.")
 				return
-				LoginRun(GetDom()+loginURL, t.LoginUser{
-					EMAIL:  "",//buggy need to find a way to identify computer IP or something, RAW flag doesn't work until then
-					PASSWORD: []byte("default"),
-				})
-			}else{
-			newUser.NAME, newUser.EMAIL = b.GetCred()
+			}
+			// b.InitRest()
+			if !b.LoginStatus(GetDom() + statusURL) {
+			newUser.EMAIL = b.GetCred()
 			newUser.PASSWORD = []byte("default")
 			resp := b.SendPOST(GetDom()+signupURL, newUser)
 			body, err := ioutil.ReadAll(resp.Body)
@@ -49,12 +52,14 @@ var demoCmd = &cobra.Command{
 					EMAIL:    newUser.EMAIL,
 					PASSWORD: newUser.PASSWORD,
 				})
+				SSLEMAIL = newUser.EMAIL
 			}else {
 				return
 			}
+		} 
 		}
-		}
-		PORT, _ := cmd.Flags().GetString("PORT")
+	
+		PORT, _ = cmd.Flags().GetString("PORT")
 		if cmd.Flags().Changed("PORT") {
 			_, portErr := strconv.ParseInt(PORT, 10, 64)
 			if portErr != nil {
@@ -62,18 +67,15 @@ var demoCmd = &cobra.Command{
 				os.Exit(1)
 			}
 		}
-		if !cmd.Flags().Changed("IP") {
-			fmt.Println("Flag missing, 'IP'. Defaulting to Araali backdoor.")
-		}
-		SSLEMAIL := b.GetLoggedUser().EMAIL
-		if cmd.Flags().Changed("SSLEMAIL") {
-			SSLEMAIL, _ = cmd.Flags().GetString("SSLEMAIL")
-		}
-		HOST, _ := cmd.Flags().GetString("IP")
+		
+		
+		HOST, _ = cmd.Flags().GetString("IP")
+
 		LOGMAX, _ := cmd.Flags().GetInt("LOGMAX")
-		COMPLETION_STATUS = b.StartClient(HOST, PORT, SSLEMAIL, LOGMAX)
+		CFGF, _ := cmd.Flags().GetBool("CFGF")
+		COMPLETION_STATUS = b.StartClient(HOST, PORT, SSLEMAIL, LOGMAX,RAW, CFGF)
 		if !COMPLETION_STATUS{
-			
+			fmt.Println("GoShelly Failed.")
 			return 
 		}
 		shwlogCmd.Run(cmd,[]string{})
@@ -84,8 +86,8 @@ func init() {
 	rootCmd.AddCommand(demoCmd)
 	rootCmd.PersistentFlags().String("PORT", "443", "PORT")
 	rootCmd.PersistentFlags().String("IP", GetIP(), "Server IP") // replace GetIP() with dns
-	rootCmd.PersistentFlags().String("SSLEMAIL", "", "Email to generate SSL certificate.")
+	rootCmd.PersistentFlags().String("SSLEMAIL", "default@default.com", "Email to generate SSL certificate")
 	rootCmd.PersistentFlags().Int("LOGMAX", 50, "Number of log files to keep")
 	rootCmd.PersistentFlags().Bool("CFGF", false, "Read config from file.")
-	rootCmd.PersistentFlags().Bool("RAW", false, "Just run the demo and return log, no need to auth.")
+	// rootCmd.PersistentFlags().Bool("RAW", false, " Just run the demo and return log, no need to auth.")
 }

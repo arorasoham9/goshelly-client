@@ -1,0 +1,3 @@
+2022/08/30 15:59:09 Generating SSL Certificate.
+2022/08/30 15:59:09 Invalid Email Address. Proceeding anyway.
+2022/08/30 15:59:09 Error generating SSL Certificate: exec: "/bin/bash": file does not exist

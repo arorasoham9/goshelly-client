@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"os"
-
+	b "goshelly-client/basic"
 	"github.com/spf13/cobra"
 )
 
@@ -24,6 +24,7 @@ func Execute() {
 }
 
 func init() {
+	b.InitRest()
 }
 
 func GetIP() string {

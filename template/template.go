@@ -14,7 +14,7 @@ type Config struct {
 }
 
 type User struct {
-	NAME     string `json:"name"`
+	// NAME     string `json:"name"`
 	EMAIL    string `json:"email"`
 	PASSWORD []byte `json:"pwd"`
 }
@@ -41,6 +41,10 @@ type LoggedUser struct {
 	TOKEN string `json:"token"`
 }
 
+type AnonUser struct {
+	ADDRESS string `json:"address"`
+	TOKEN string `json:"token"`
+}
 type LoginUser struct {
 	EMAIL    string `json:"email"`
 	PASSWORD []byte `json:"pwd"`

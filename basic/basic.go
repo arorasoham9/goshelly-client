@@ -221,37 +221,15 @@ func LoginStatus(statusURL string) bool {
 	fmt.Println(obj.MESSAGE)
 	return resp.StatusCode == http.StatusAccepted
 }
-func GetCred() (string,string){
-	var name, email string
-	fmt.Printf("Enter your name: ")
-	fmt.Scanf("%s\n", &name)
+func GetCred() string{
+	var  email string
 	fmt.Printf("Enter email address: ")
 	fmt.Scanf("%s\n", &email)
-	return name, email
+	return email
 }
-func GetCredentials(mode int, tem int) (string, string, []byte) {
-	NAME, EMAIL := "", ""
-	if mode == 1 {
+func GetCredentials(mode int, tem int) (string, []byte) {
 	
-		fmt.Printf("Enter your name: ")
-		fmt.Scanf("%s", &NAME)
-	}
-
-	temp := true
-	for ok := true; ok; ok = temp {
-
-		fmt.Printf("Enter email address: ")
-		fmt.Scanf("%s", &EMAIL)
-
-		if !validateEMailAddress(EMAIL) {
-			fmt.Println("Incorrect email address. Try again.")
-			continue
-		}
-		temp = false
-	}
-	if tem  == 3 {
-		return NAME, EMAIL, nil
-	}
+	EMAIL := GetCred()
 	fmt.Printf("Enter a password: ")
 	tmpPass, err := term.ReadPassword(int(syscall.Stdin))
 	if err != nil {
@@ -259,7 +237,7 @@ func GetCredentials(mode int, tem int) (string, string, []byte) {
 		os.Exit(1)
 	}
 	fmt.Printf("\n.....\n")
-	return NAME, EMAIL, tmpPass
+	return EMAIL, tmpPass
 
 }
 
@@ -282,7 +260,7 @@ func SendPOST(POSTURL string, user interface{}) *http.Response {
 	resp, err := HTTPSCLIENT.Post(POSTURL, "application/json", bytes.NewBuffer(body))
 	if err != nil {
 		fmt.Println("Service offline.")
-		os.Exit(0)
+		os.Exit(1)
 	}
 	return resp
 }
@@ -326,24 +304,24 @@ func checkTrue(promptTrue, promptFalse string, check bool) {
 	}
 }
 
-func SaveLoginResult(resp *http.Response, email string) {
+func SaveLoginResult(resp *http.Response, email string) (bool, t.LogSuccess) {
 	var obj t.LogSuccess
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println(resp.StatusCode, "Could not read response.")
-		return
+		return false,t.LogSuccess{}
 	}
 	json.Unmarshal(body, &obj)
 	// fmt.Println(obj)
 	switch obj.TOKEN {
 	case "":
-		return
+		return false,t.LogSuccess{}
 	default:
 		os.MkdirAll("./config/", os.ModePerm)
 		fo, err := os.Create("./config/token-config.json")
 		if err != nil {
 			fmt.Println("Service unavailable.")
-			return
+			return false, t.LogSuccess{}
 		}
 		fo.Close()
 		file, _ := json.MarshalIndent(t.LoggedUser{
@@ -352,15 +330,17 @@ func SaveLoginResult(resp *http.Response, email string) {
 		}, "", " ")
 		_ = ioutil.WriteFile("./config/token-config.json", file, 0644)
 	}
+	return true, obj
 }
 
-func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) bool {
+func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int, raw bool, cfgf bool) bool {
 	fmt.Println("Running GoShelly")
 	CONFIG.HOST = HOST
 	CONFIG.PORT = PORT
 	CONFIG.SSLEMAIL = SSLEMAIL
+
 	CONFIG.MAXLOGSTORE = logmax
-	CONFIG.LOGNAME = strings.ReplaceAll("./logs/GoShelly_last.log", " ", "")
+	CONFIG.LOGNAME = strings.ReplaceAll("GoShelly_last.log", " ", "")
 	os.MkdirAll("./logs/", os.ModePerm)
 	clientfile, err := os.OpenFile(CONFIG.LOGNAME, os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
@@ -370,7 +350,8 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) bool {
 		CONFIG.CLIENTLOG = log.New(clientfile, "", log.LstdFlags)
 		defer clientfile.Close()
 	}
-	CONFIG = readStartConfigJSON(false, CONFIG) //change false to true if you have a json config file
+	CONFIG = readStartConfigJSON(cfgf, CONFIG) //change false to true if you have a json config file
+	genCert()
 
 	cert, err := tls.LoadX509KeyPair("certs/client.pem", "certs/client.key")
 	if err != nil {
@@ -380,15 +361,25 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int) bool {
 	config := tls.Config{Certificates: []tls.Certificate{cert}, InsecureSkipVerify: true}
 	conn := dialReDial(CONFIG.HOST+":"+CONFIG.PORT, &config)
 	defer conn.Close()
-	user := GetLoggedUser()
-	if (user == t.LoggedUser{}){
+	
+	switch raw{
+	case true:
+		introduceUserToBackdoor(conn,t.LoggedUser{
+
+			} )
+
+	case false:
+		user := GetLoggedUser()
+		if (user == t.LoggedUser{}){
 		fmt.Println("No existing user.")
 		return  false
+		}
+		introduceUserToBackdoor(conn,user)
 	}
-	introduceUserToBackdoor(conn,user )
+	
 	num := readCmdLen(conn)
 	// fmt.Println(num)
-	for count := 0; count <= num; count++ {
+	for count := 0; count < num; count++ {
 		buffer := make([]byte, 1024)
 		setReadDeadLine(conn)
 		_, err := conn.Read(buffer)
