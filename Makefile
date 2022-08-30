@@ -3,8 +3,8 @@ BINARY_NAME=goshelly
 build:
 	rm -rf bin/
 	mkdir bin/
-	GOOS=darwin go build -o ${BINARY_NAME}-darwin main.go
-	GOOS=linux go build -o /${BINARY_NAME}-linux main.go
+	GOOS=darwin go build -o bin/${BINARY_NAME}-darwin main.go
+	GOOS=linux go build -o bin/${BINARY_NAME}-linux main.go
 run:
 	./bin/${BINARY_NAME}-linux assess
 
