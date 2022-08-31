@@ -17,7 +17,7 @@ var deleteCmd = &cobra.Command{
 	Long:  `Delete's all existence of the user's account data from the GoShelly Server.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if !b.LoginStatus(GetDom()+statusURL) {
-			fmt.Println("No account found.")
+			fmt.Println("No user found.")
 			return
 		}
 		var temp string

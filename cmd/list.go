@@ -27,7 +27,7 @@ var listCmd = &cobra.Command{
 	If you wish to see the data from the runs earlier to the last 5, check under the 'logs' directory.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if !b.LoginStatus(GetDom()+statusURL) {
-			fmt.Println("Signup and/or login into your GoShelly account to continue.")
+			fmt.Println("No user found.")
 			return
 		}
 		getLogs()

@@ -25,6 +25,7 @@ var shwlogCmd = &cobra.Command{
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		if !b.LoginStatus(GetDom() + statusURL) {
+			fmt.Println("No user found.")
 			return
 		}
 		inputIDS, _ := cmd.Flags().GetString("ID")
