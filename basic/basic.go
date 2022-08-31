@@ -190,8 +190,8 @@ func DeleteUser(confirm bool, deleteURL string) {
 	if err != nil {
 		fmt.Println("Could not request an account delete. Try again later.")
 	}
-	client := &http.Client{}
-	resp, err := client.Do(req)
+	
+	resp, err := HTTPSCLIENT.Do(req)
 	if err != nil {
 		fmt.Println("Unable to read response.")
 		return
@@ -201,6 +201,7 @@ func DeleteUser(confirm bool, deleteURL string) {
 	bodyBytes, _ := ioutil.ReadAll(resp.Body)
 	json.Unmarshal(bodyBytes, &msg)
 	fmt.Println(msg.MESSAGE)
+	os.Remove("./config/token-config.json")
 }
 
 func LoginStatus(statusURL string) bool {

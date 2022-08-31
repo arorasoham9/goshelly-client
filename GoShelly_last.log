@@ -1,10 +1,10 @@
-2022/08/31 01:15:19 Connected to:  20.220.40.168
-2022/08/31 01:15:19 client: handshake:  true
-2022/08/31 01:15:21 Client-Server-Intro=ok
-2022/08/31 01:15:25 
+2022/08/31 01:26:33 Connected to:  20.220.40.168
+2022/08/31 01:26:33 client: handshake:  true
+2022/08/31 01:26:35 Client-Server-Intro=ok
+2022/08/31 01:26:39 
 EXECUTE:
  ls
-2022/08/31 01:15:27 
+2022/08/31 01:26:40 
 RESPONSE:
  basic
 cmd
@@ -13,7 +13,6 @@ go.mod
 goshelly_certs
 GoShelly_last.log
 go.sum
-gs
 LICENSE
 logs
 main.go
@@ -21,31 +20,31 @@ Makefile
 scripts
 template
 
-2022/08/31 01:15:28 
+2022/08/31 01:26:41 
 EXECUTE:
  uname -a
-2022/08/31 01:15:29 
+2022/08/31 01:26:42 
 RESPONSE:
  Linux MSI 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
 
-2022/08/31 01:15:30 
+2022/08/31 01:26:43 
 EXECUTE:
  whoami
-2022/08/31 01:15:31 
+2022/08/31 01:26:44 
 RESPONSE:
  arorasoham9
 
-2022/08/31 01:15:32 
+2022/08/31 01:26:45 
 EXECUTE:
  pwd
-2022/08/31 01:15:33 
+2022/08/31 01:26:47 
 RESPONSE:
  /mnt/c/Users/arora/OneDrive/Desktop/soham work/goshelly-client
 
-2022/08/31 01:15:34 
+2022/08/31 01:26:48 
 EXECUTE:
  env
-2022/08/31 01:15:35 
+2022/08/31 01:26:49 
 RESPONSE:
  SHELL=/bin/bash
 WSL_DISTRO_NAME=kali-linux
@@ -55,7 +54,7 @@ LOGNAME=arorasoham9
 _=/usr/bin/env
 HOME=/home/arorasoham9
 LANG=en_US.UTF-8
-WSL_INTEROP=/run/WSL/389_interop
+WSL_INTEROP=/run/WSL/404_interop
 TERM=xterm-256color
 USER=arorasoham9
 SHLVL=0
@@ -63,4 +62,5 @@ WSLENV=
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Python310/Scripts/:/mnt/c/Python310/:/mnt/c/Program Files/AdoptOpenJDK/jdk-14.0.1.7-hotspot/bin:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA NvDLISR:/mnt/c/Program Files/Microsoft SQL Server/130/Tools/Binn/:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/MATLAB/R2021a/bin:/mnt/c/Program Files/nodejs/:/mnt/c/ProgramData/chocolatey/bin:/mnt/c/Program Files/PuTTY/:/mnt/c/Program Files/remoteit/resources/x64:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/Kubernetes/Minikube:/mnt/c/Program Files/Docker/Docker/resources/bin:/mnt/c/ProgramData/DockerDesktop/version-bin:/mnt/c/Program Files/Go/bin:/mnt/c/Users/arora/AppData/Local/Programs/Python/Python38-32/Scripts/:/mnt/c/Users/arora/AppData/Local/Programs/Python/Python38-32/:/mnt/c/Users/arora/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/arora/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Program Files/JetBrains/IntelliJ IDEA Community Edition 2020.1.2/bin:/mnt/c/Users/arora/AppData/Local/GitHubDesktop/bin:/mnt/c/Users/arora/AppData/Local/atom/bin:/mnt/c/Users/arora/AppData/Roaming/npm:/mnt/c/msys64/mingw64/bin:/mnt/c/Users/arora/go/bin
 HOSTTYPE=x86_64
 
-2022/08/31 01:15:36 All commands ran successfully. Returning exit success.
+2022/08/31 01:26:50 All commands ran successfully. Returning exit success.
+s.

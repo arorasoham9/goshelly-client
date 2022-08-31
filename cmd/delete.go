@@ -3,7 +3,6 @@ package cmd
 import (
 	"fmt"
 	b "goshelly-client/basic"
-	"os"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -38,7 +37,7 @@ var deleteCmd = &cobra.Command{
 		}
 
 		b.DeleteUser(confirm, GetDom()+deleteURL)
-		os.Remove("./config/token-config.json")
+		
 	},
 }
 
