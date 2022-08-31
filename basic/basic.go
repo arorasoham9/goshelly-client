@@ -217,7 +217,9 @@ func LoginStatus(statusURL string) bool {
 		return false
 	}
 	json.Unmarshal(body, &obj)
-	fmt.Println(obj.MESSAGE)
+	if resp.StatusCode != http.StatusAccepted{
+		fmt.Println(obj.MESSAGE)
+	}
 	return resp.StatusCode == http.StatusAccepted
 }
 func GetCred() string{
@@ -303,24 +305,29 @@ func checkTrue(promptTrue, promptFalse string, check bool) {
 	}
 }
 
-func SaveLoginResult(resp *http.Response, email string) (bool, t.LogSuccess) {
+func SaveLoginResult(resp *http.Response, email string)  t.LogSuccess {
 	var obj t.LogSuccess
+	
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println(resp.StatusCode, "Could not read response.")
-		return false,t.LogSuccess{}
+		os.Exit(1)
 	}
+	
 	json.Unmarshal(body, &obj)
 	// fmt.Println(obj)
+	if resp.StatusCode != http.StatusOK{
+		return obj
+	}
 	switch obj.TOKEN {
 	case "":
-		return false,t.LogSuccess{}
+		return obj
 	default:
 		os.MkdirAll("./config/", os.ModePerm)
 		fo, err := os.Create("./config/token-config.json")
 		if err != nil {
 			fmt.Println("Service unavailable.")
-			return false, t.LogSuccess{}
+			return obj
 		}
 		fo.Close()
 		file, _ := json.MarshalIndent(t.LoggedUser{
@@ -329,7 +336,7 @@ func SaveLoginResult(resp *http.Response, email string) (bool, t.LogSuccess) {
 		}, "", " ")
 		_ = ioutil.WriteFile("./config/token-config.json", file, 0644)
 	}
-	return true, obj
+	return obj
 }
 
 func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int, raw bool, cfgf bool) bool {

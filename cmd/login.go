@@ -5,6 +5,7 @@ import (
 	b "goshelly-client/basic"
 	t "goshelly-client/template"
 
+
 	"github.com/spf13/cobra"
 )
 
@@ -22,18 +23,14 @@ var loginCmd = &cobra.Command{
 			return
 		}
 		loginUser.EMAIL, loginUser.PASSWORD = b.GetCredentials(0,5)
-		obj := LoginRun(GetDom()+loginURL,loginUser)
-		fmt.Println(obj.MESSAGE)
+		LoginRun(GetDom()+loginURL,loginUser)
 	},
 }
 
-func LoginRun(url string, user t.LoginUser) t.LogSuccess {
+func LoginRun(url string, user t.LoginUser) {
 	resp := b.SendPOST(url, user)
-	check, obj := b.SaveLoginResult(resp, user.EMAIL)
-	if !check{
-		fmt.Println("Unable to run GoShelly. User created, token not stored.")
-	}
-	return obj
+	obj := b.SaveLoginResult(resp, user.EMAIL)
+	fmt.Println(obj.MESSAGE)
 }
 
 func init() {
