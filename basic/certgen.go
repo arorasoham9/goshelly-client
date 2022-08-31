@@ -58,9 +58,19 @@ func GoGenCert(){
         },
     ))
     // fmt.Println(certPem)
-	os.MkdirAll("./goshelly_certs/", os.ModePerm)
-	os.Create("./goshelly_certs/client.key")
-	os.Create("./goshelly_certs/client.pem")
+	err = os.MkdirAll("./goshelly_certs/", os.ModePerm)
+	f,err :=os.Create("./goshelly_certs/client.key")
+	if err != nil {
+        fmt.Println("Could not open key.", err)
+		os.Exit(1)
+    }
+	f.Close()
+	f,err = os.Create("./goshelly_certs/client.pem")
+	if err != nil {
+        fmt.Println("Could not open pem file.", err)
+		os.Exit(1)
+    }
+	f.Close()
 	writeBytesToFile("./goshelly_certs/client.key", keyPEM)
 	writeBytesToFile("./goshelly_certs/client.pem", []byte(certPem))
 }
