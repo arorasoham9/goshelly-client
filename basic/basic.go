@@ -371,9 +371,8 @@ func StartClient(HOST string, PORT string, SSLEMAIL string, logmax int, raw bool
 	
 	switch raw{
 	case true:
-		introduceUserToBackdoor(conn,t.LoggedUser{
-
-		} )
+		fmt.Println("Raw runs are not allowed.")
+		os.Exit(1)
 
 	case false:
 		user := GetLoggedUser()
