@@ -14,7 +14,7 @@ var resetCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Printf("Resetting...")
 		os.Remove("./config/token-config.json")
-		fmt.Printf("Done.")
+		fmt.Printf("Done.\n")
 	},
 }
 
