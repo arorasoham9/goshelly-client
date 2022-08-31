@@ -34,8 +34,11 @@ var shwlogCmd = &cobra.Command{
 
 func genLinks(ids string) {
 	fmt.Printf("Fetching log for log ID: ")
-	if ids == "-1"{
+	switch ids{
+	case "-1":
 		fmt.Println("latest")
+	default:
+		fmt.Println(ids)
 	}
 	var obj t.Msg
 	tempUser := b.GetLoggedUser()

@@ -24,13 +24,13 @@ var loginCmd = &cobra.Command{
 		}
 		loginUser.EMAIL, loginUser.PASSWORD = b.GetCredentials(0,5)
 		LoginRun(GetDom()+loginURL,loginUser)
+		
 	},
 }
 
 func LoginRun(url string, user t.LoginUser) {
 	resp := b.SendPOST(url, user)
-	obj := b.SaveLoginResult(resp, user.EMAIL)
-	fmt.Println(obj.MESSAGE)
+	b.SaveLoginResult(resp, user.EMAIL)
 }
 
 func init() {
