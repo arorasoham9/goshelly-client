@@ -1,8 +1,9 @@
 package cmd
 
 import (
-	"os"
 	b "goshelly-client/basic"
+	"os"
+
 	"github.com/spf13/cobra"
 )
 
@@ -28,11 +29,12 @@ func init() {
 }
 
 func GetIP() string {
-	return "backdoor.aws.araalinetworks.com"
+	// return "backdoor.aws.araalinetworks.com"
+	return "20.175.165.19"
 }
 
 
 func GetDom() string{
-	return "https://" + GetIP() + ":9000"
+	return "http://" + GetIP() + ":9000"
 }
 
