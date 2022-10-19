@@ -70,7 +70,7 @@ func genLinks(ids string) {
 		return
 	}
 	fmt.Printf("\nYou can find the log here: %+v\n\n", u)
-	fmt.Println(discprompt) 
+	// fmt.Println(discprompt) 
 }
 
 func init() {

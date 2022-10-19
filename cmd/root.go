@@ -29,8 +29,7 @@ func init() {
 }
 
 func GetIP() string {
-	// return "backdoor.aws.araalinetworks.com"
-	return "20.175.165.19"
+	return "backdoor.aws.araalinetworks.com"
 }
 
 
