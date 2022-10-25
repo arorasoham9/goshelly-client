@@ -62,8 +62,8 @@ func genLinks(ids string) {
 		fmt.Println(obj.MESSAGE)
 		return
 	}
+	obj.MESSAGE = GetDom()+obj.MESSAGE
 	
-	obj.MESSAGE = "https://"+GetIP()+obj.MESSAGE
 	u, err := url.Parse(obj.MESSAGE)
 	if err != nil {
 		fmt.Println("Could not parse log link. Err: ",err)

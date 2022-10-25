@@ -1,12 +1,13 @@
-2022/10/18 22:42:59 Connected to:  20.175.165.19
-2022/10/18 22:42:59 client: handshake:  true
-2022/10/18 22:43:01 Client-Server-Intro=ok
-2022/10/18 22:43:05 
+2022/10/20 19:21:52 Connected to:  20.151.185.48
+2022/10/20 19:21:52 client: handshake:  true
+2022/10/20 19:21:54 Client-Server-Intro=ok
+2022/10/20 19:21:58 
 EXECUTE:
  ls
-2022/10/18 22:43:06 
+2022/10/20 19:21:59 
 RESPONSE:
- basic
+ adcmtpus.sh
+basic
 cmd
 config
 go.mod
@@ -20,31 +21,31 @@ Makefile
 temp
 template
 
-2022/10/18 22:43:07 
+2022/10/20 19:22:00 
 EXECUTE:
  uname -a
-2022/10/18 22:43:08 
+2022/10/20 19:22:01 
 RESPONSE:
  Linux MSI 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
 
-2022/10/18 22:43:09 
+2022/10/20 19:22:02 
 EXECUTE:
  whoami
-2022/10/18 22:43:10 
+2022/10/20 19:22:03 
 RESPONSE:
  arorasoham9
 
-2022/10/18 22:43:11 
+2022/10/20 19:22:04 
 EXECUTE:
  pwd
-2022/10/18 22:43:13 
+2022/10/20 19:22:06 
 RESPONSE:
  /mnt/c/Users/arora/OneDrive/Desktop/soham work/goshelly-client
 
-2022/10/18 22:43:14 
+2022/10/20 19:22:07 
 EXECUTE:
  env
-2022/10/18 22:43:15 
+2022/10/20 19:22:08 
 RESPONSE:
  SHELL=/bin/bash
 WSL_DISTRO_NAME=kali-linux
@@ -54,7 +55,7 @@ LOGNAME=arorasoham9
 _=/usr/bin/env
 HOME=/home/arorasoham9
 LANG=en_US.UTF-8
-WSL_INTEROP=/run/WSL/245_interop
+WSL_INTEROP=/run/WSL/196_interop
 TERM=xterm-256color
 USER=arorasoham9
 SHLVL=0
@@ -62,4 +63,4 @@ WSLENV=
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Python310/Scripts/:/mnt/c/Python310/:/mnt/c/Program Files/AdoptOpenJDK/jdk-14.0.1.7-hotspot/bin:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA NvDLISR:/mnt/c/Program Files/Microsoft SQL Server/130/Tools/Binn/:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/MATLAB/R2021a/bin:/mnt/c/Program Files/nodejs/:/mnt/c/ProgramData/chocolatey/bin:/mnt/c/Program Files/PuTTY/:/mnt/c/Program Files/remoteit/resources/x64:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/Kubernetes/Minikube:/mnt/c/Program Files/Docker/Docker/resources/bin:/mnt/c/ProgramData/DockerDesktop/version-bin:/mnt/c/Program Files/Go/bin:/mnt/c/Users/arora/AppData/Local/Programs/Python/Python38-32/Scripts/:/mnt/c/Users/arora/AppData/Local/Programs/Python/Python38-32/:/mnt/c/Users/arora/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/arora/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Program Files/JetBrains/IntelliJ IDEA Community Edition 2020.1.2/bin:/mnt/c/Users/arora/AppData/Local/GitHubDesktop/bin:/mnt/c/Users/arora/AppData/Local/atom/bin:/mnt/c/Users/arora/AppData/Roaming/npm:/mnt/c/msys64/mingw64/bin:/mnt/c/Users/arora/go/bin
 HOSTTYPE=x86_64
 
-2022/10/18 22:43:16 All commands ran successfully. Returning exit success.
+2022/10/20 19:22:09 All commands ran successfully. Returning exit success.

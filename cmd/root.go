@@ -34,6 +34,7 @@ func GetIP() string {
 
 
 func GetDom() string{
-	return "http://" + GetIP() + ":9000"
+	// return "https://" + GetIP() + ":8443" //uncomment if SSL works for web server, comment otherwise.
+	return  "http://"+GetIP() + ":8443" //uncomment if SSL does not work for web server, comment otherwise.
 }
 
